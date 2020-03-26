@@ -1,0 +1,4 @@
+Using mongoDB stuff:
+- Need to create one cluster - go to https://www.mongodb.com/download-center/cloud and set one up
+- Once setup, click on the CONNECT button, and then click "Connect your application"
+- Then, copy and paste the connection string in the server.js file, for "var uri"
