@@ -11,6 +11,5 @@ var UserSchema = new Schema({
   university: {type: String},
   admin: {type: Boolean}
 });
-UserSchema.plugin(random);
 
 module.exports = mongoose.model("User", UserSchema);
