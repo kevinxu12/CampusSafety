@@ -19,8 +19,51 @@ var routes = function(User) {
         })
     }
 
+    var signup = function(req, res) {
+        var firstname = req.body.firstname;
+        var lastname = req.body.lastname;
+        var username = req.body.username;
+        var email = req.body.email;
+        var phone = req.body.phone;
+        var password = req.body.password;
+        var university = req.body.university;
+        var admin = true;
+
+        var newUser = new User({
+            email: email,
+            password: password,
+            firstName: firstname,
+            lastName: lastname,
+            username: username,
+            phone: phone,
+            university: university,
+            admin: admin
+        });
+
+        User.find({email: email}, function(err, response) {
+            if (err) {
+                console.log(err);
+            } else {
+                if (response.length != 0) {
+                    res.send("user exists");
+                } else {
+                    newUser.save(function (err, response) {
+                        if (err) {
+                            console.log(err);
+                            res.send("error");
+                        } else {
+                            console.log(response);
+                            res.send("success");
+                        }
+                    });
+                }
+            }
+        })
+    }
+
     return {
-        check_login: checkLogin
+        check_login: checkLogin,
+        signup: signup
     }
 }
 

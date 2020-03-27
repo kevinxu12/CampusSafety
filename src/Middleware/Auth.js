@@ -8,6 +8,13 @@ class Auth {
 
         callback(value);
     }
+
+    async signup (obj, callback) {
+        const res = await axios.post('/api/signup', obj);
+        const value = res.data;
+
+        callback(value);
+    }
 }
 
 export default new Auth();

@@ -8,7 +8,7 @@ var UserSchema = new Schema({
   lastName: {type: String},
   username: {type: String},
   phone: {type: String},
-  college: {type: String},
+  university: {type: String},
   admin: {type: Boolean}
 });
 UserSchema.plugin(random);

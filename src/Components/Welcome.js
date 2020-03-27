@@ -40,7 +40,7 @@ class Welcome extends Component {
             Auth.login(obj, (result) => {
                 if (result === "success") {
                     this.props.history.push({
-                        pathname: '/home',
+                        pathname: '/admin_dashboard',
                         state: {email: this.state.email}
                     });
                 } else {
@@ -77,44 +77,50 @@ class Welcome extends Component {
         }
 
         return (
-            <div class="container">
-                <Container fluid="sm">
-                    <h1 class="penn-safety"> Penn Safety </h1>
-                    <div class="card-container">
-                        <div class="card">
-                            <h5 class="sign-in"> Please sign in</h5>
-                            <Form onSubmit = {this.handleSubmit}>
-                            <Form.Group controlId="formBasicEmail">
-                                <Form.Label>Email address</Form.Label>
-                                <Form.Control type="email" placeholder="Enter email" onChange = {this.handleEmail}/>
-                                <Form.Text className="red-text">
-                                    {this.state.errorEmail}
-                                </Form.Text>    
-                            </Form.Group>
-                            <Form.Group controlId="formBasicPassword">
-                                <Form.Label>Password</Form.Label>
-                                <Form.Control type="password" placeholder="Password" onChange = {this.handlePassword}/>
-                                <Form.Text className="red-text">
-                                    {this.state.errorPassword}
-                                </Form.Text>    
-                            </Form.Group>
-                            <div class="button">
-                                <Button variant="primary" type="submit">
-                                    Login
-                                </Button>
+            <div>
+                <div>
+                 {alert}
+                </div>
+                <div class="container">
+                    <Container fluid="sm">
+                        <h1 class="penn-safety"> Penn Safety </h1>
+                        <div class="card-container">
+                            <div class="card">
+                                <h5 class="sign-in"> Please sign in</h5>
+                                <Form onSubmit = {this.handleSubmit}>
+                                <Form.Group controlId="formBasicEmail">
+                                    <Form.Label>Email address</Form.Label>
+                                    <Form.Control type="email" placeholder="Enter email" onChange = {this.handleEmail}/>
+                                    <Form.Text className="red-text">
+                                        {this.state.errorEmail}
+                                    </Form.Text>    
+                                </Form.Group>
+                                <Form.Group controlId="formBasicPassword">
+                                    <Form.Label>Password</Form.Label>
+                                    <Form.Control type="password" placeholder="Password" onChange = {this.handlePassword}/>
+                                    <Form.Text className="red-text">
+                                        {this.state.errorPassword}
+                                    </Form.Text>    
+                                </Form.Group>
+                                <div class="button">
+                                    <Button variant="primary" type="submit">
+                                        Login
+                                    </Button>
+                                </div>
+                                
+                                </Form>
                             </div>
-                            
-                            </Form>
                         </div>
-                    </div>
-                    
-                    <div class="sign-up-container">
-                        <h5 class="sign-up"> Don't have an account? Sign up today! </h5>
-                        <Link to="/signup" className="btn btn-light"> Sign up </Link>
-                    </div>
-                    
-                </Container>
+                        
+                        <div class="sign-up-container">
+                            <h5 class="sign-up"> Don't have an account? Sign up today! </h5>
+                            <Link to="/signup" className="btn btn-light"> Sign up </Link>
+                        </div>
+                        
+                    </Container>
+                </div>
             </div>
+            
         )
                 
 

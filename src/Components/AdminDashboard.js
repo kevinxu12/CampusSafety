@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import './AdminDashboard.css'
-import Home from './Home'
-import PendingRequests from './PendingRequests';
+import '../Style/AdminDashboard.css'
+import Home from '../Home'
+import PendingRequests from '../PendingRequests';
 class AdminDashboard extends Component {
     state = {
         currentPage: 'Home'
