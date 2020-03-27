@@ -3,6 +3,7 @@ package edu.upenn.cis350.android;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
@@ -15,28 +16,15 @@ import java.net.URL;
 import java.util.Map;
 import java.util.Scanner;
 
-public class HTTPPostRequest extends AsyncTask<String, JSONObject, JSONObject> {
-    JSONObject postData;
-    public HTTPPostRequest(JSONObject postData) {
-        this.postData = postData;
-    }
-    protected JSONObject doInBackground(String ... params) {
+public class HTTPGetRequest extends AsyncTask<String, JSONArray, JSONArray> {
+    protected JSONArray doInBackground(String ... params) {
         try {
             // connect to the serverß
             URL url = new URL(params[0]);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("POST");
+            conn.setRequestMethod("GET");
             conn.setDoInput(true);
-            conn.setDoOutput(true);
-            conn.setRequestProperty("Content-Type", "application/json");
             conn.connect();
-
-            // Send the post body
-            if(this.postData != null) {
-                OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream());
-                writer.write(postData.toString());
-                writer.flush();
-            }
 
             int HttpResult = conn.getResponseCode();
 
@@ -47,12 +35,12 @@ public class HTTPPostRequest extends AsyncTask<String, JSONObject, JSONObject> {
                 Scanner in = new Scanner(inputStream);
                 String msg = in.nextLine();
 
-                JSONObject jo = new JSONObject(msg);
-                Log.v("result of posting a new request", jo.toString());
+                JSONArray jo = new JSONArray(msg);
+                Log.v("Result of getting requests", jo.toString());
                 return jo;
             }
         } catch (Exception e) {
-            Log.v("posting a new request threw exception", e.toString());
+            Log.v("Excecption while getting requests", e.toString());
             return null;
         }
 
