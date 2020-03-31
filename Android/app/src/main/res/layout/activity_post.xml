@@ -22,6 +22,27 @@
         android:hint="Enter Description"
         android:id="@+id/description" />
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:hint="Enter Location"
+        android:id="@+id/location" />
+
+    <EditText
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:hint="Enter First name"
+    android:id="@+id/firstname" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:hint="Enter Last name"
+        android:id="@+id/lastname" />
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

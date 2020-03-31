@@ -1,16 +1,19 @@
 import React, { Component } from 'react'
 import Card from './Card';
+import axios from 'axios';
+
 const testData = [
     {name: "Maria", title: "hungry", description: "also hungry rn", location: "Towne" }, 
     {name: "Matt", title: "hungry", description: "hungry rn", location: "houston"}, 
     {name: "Randy", title: "Attacked avoid pls", description: "attacked!", location: "40th and locust"}]
 class PendingRequests extends Component {
     state = {
-        data: []
+        data: testData
     }
-    componentDidMount() {
+    async componentDidMount() {
         // sync with backend later
-        const fetchedData = testData;
+        const fetchedDataRaw = await axios.get('/api/getAllRequests');
+        const fetchedData = fetchedDataRaw.data;
         this.setState({data: fetchedData})
     }
 

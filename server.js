@@ -11,6 +11,7 @@ mongoose.connection.on('connected', function(){
 
 //define models
 var User = require("./models/user");
+require('./models/request');
 
 // define routes
 var authRoutes = require('./routes/authroutes.js')(User);
