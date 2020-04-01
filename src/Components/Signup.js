@@ -1,11 +1,11 @@
 import React, {Component} from 'react'
-import {Redirect, Link} from 'react-router-dom'
+import {Redirect, Link, withRouter} from 'react-router-dom'
 import Container from 'react-bootstrap/Container'
 import Form from 'react-bootstrap/Form'
 import Alert from 'react-bootstrap/Alert'
 import Button from 'react-bootstrap/Button'
 import Auth from './../Middleware/Auth'
-import '../Style/Welcome.css'
+import '../Style/Signup.css'
 
 class Signup extends Component {
 
@@ -18,6 +18,7 @@ class Signup extends Component {
             email: '',
             errorEmail: '',
             password: '',
+            phone: '',
             errorPassword: '',
             university: '',
             alert: ''
@@ -48,6 +49,12 @@ class Signup extends Component {
         })
     }
 
+    handlePhone = (event) => {
+        this.setState({
+            phone: event.target.value
+        })
+    }
+
     handlePassword = (event) => {
         this.setState({
             password: event.target.value
@@ -64,27 +71,26 @@ class Signup extends Component {
         if (this.state.errorEmail.length == 0 && this.state.errorPassword.length == 0) {
             console.log("signup sequence");
 
-            var obj = {email: this.state.email, password: this.state.password};
-            Auth.login(obj, (result) => {
-                if (result === "success") {
+            var objCheckLogin = {email: this.state.email, password: this.state.password};
+            var objSignup = {firstname: this.state.firstname, lastname: this.state.lastname, email: this.state.email, password: this.state.password, username: this.state.username, university: this.state.university};
+            
+            Auth.signup(objSignup, (result) => {
+                if (result === "user exists") {
+                    this.setState({
+                        alert: "Email already exists!"
+                    })
+                } else if (result === "success") {
                     this.props.history.push({
                         pathname: '/admin_dashboard',
                         state: {email: this.state.email}
                     });
                 } else {
-                    if (result === "user exists") {
-                        this.setState({
-                            alert: "Email already exists!"
-                        })
-                    } else {
-                        this.setState({
-                            alert: "Error with saving data"
-                        })
-                    }
+                    this.setState({
+                        alert: "Error with saving user data"
+                    })
                 }
             })
-
-            
+             
         }
     }
 
@@ -140,9 +146,16 @@ class Signup extends Component {
                                             {this.state.errorEmail}
                                         </Form.Text>    
                                     </Form.Group>
+                                    <Form.Group controlId="formBasicPassword">
+                                        <Form.Label>Password</Form.Label>
+                                        <Form.Control type="password" placeholder="Enter password" onChange = {this.handlePassword}/>
+                                        <Form.Text className="red-text">
+                                            {this.state.errorPassword}
+                                        </Form.Text>    
+                                    </Form.Group>
                                     <Form.Group controlId="formPhoneNumber">
                                         <Form.Label>Phone Number</Form.Label>
-                                        <Form.Control type="phonenumber" placeholder="Phone Number" onChange = {this.handlePassword}/>
+                                        <Form.Control type="phonenumber" placeholder="Phone Number" onChange = {this.handlePhone}/>
                                     </Form.Group>
                                     <Form.Group controlId="formUniversity">
                                         <Form.Label>University</Form.Label>
@@ -164,5 +177,6 @@ class Signup extends Component {
     }
 
 }
+
 
 export default Signup;
