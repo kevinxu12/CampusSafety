@@ -50,11 +50,9 @@
         android:id="@+id/post_button"
         android:onClick="onPostButtonClick"
         android:layout_centerInParent="true" />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Get Requests"
-        android:id="@+id/get_request_button"
-        android:onClick="onGetRequestClick"
-        android:layout_centerInParent="true" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/requests"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </LinearLayout>

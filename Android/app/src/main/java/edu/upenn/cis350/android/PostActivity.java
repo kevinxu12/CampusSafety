@@ -1,6 +1,8 @@
 package edu.upenn.cis350.android;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -11,10 +13,13 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.net.URL;
+import java.util.ArrayList;
 
 public class PostActivity extends AppCompatActivity {
     private static final String TAG_POST = "POST";
     private static final String TAG_GET = "GET";
+    RecyclerViewAdapter adapter;
+    ArrayList<JSONObject> testList;
     // for testing
 //    private String title = "Crime";
 //    private String description = "Bad";
@@ -26,10 +31,14 @@ public class PostActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
-    }
-    public void onGetRequestClick(View view) {
-        Log.v(TAG_GET, "Getting all requests");
+        testList = new ArrayList<>();
         getRequests();
+
+
+        RecyclerView recyclerView = findViewById(R.id.requests);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new RecyclerViewAdapter(this,testList);
+        recyclerView.setAdapter(adapter);
     }
 
     private void getRequests() {
@@ -37,8 +46,12 @@ public class PostActivity extends AppCompatActivity {
         URL url = new URL("http://10.0.2.2:5000/api/getAllRequests");
         HTTPGetRequest task = new HTTPGetRequest();
         task.execute(url.toString());
-        JSONArray value = task.get();
-        Log.v(TAG_GET, "value of get is " + value.toString());
+        JSONArray requestArray = task.get();
+        for(int i = 0 ; i < requestArray.length(); i ++) {
+            JSONObject request = (JSONObject) requestArray.get(i);
+            testList.add(request);
+        }
+        Log.v(TAG_GET, "value of get is " + requestArray.toString());
     }
     catch (Exception e) {
 
