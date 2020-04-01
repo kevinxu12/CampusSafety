@@ -15,7 +15,6 @@ class AdminDashboard extends Component {
             currentPage: 'Home',
         }
     }
-    
 
     deleteProfile() {
         console.log('deleting profile');
