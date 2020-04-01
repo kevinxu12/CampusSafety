@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import './Card.css'
+import '../Style/Card.css'
 class Card extends Component {
 
     acceptRequest() {

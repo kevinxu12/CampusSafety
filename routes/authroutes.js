@@ -12,8 +12,8 @@ var routes = function(User) {
                     req.session.user = response[0].username;
                     res.send("success");
                 } else {
-                    console.log("Unsuccessful login");
-                    res.send("Wrong password. Please try again.");
+                    console.log("error");
+                    res.send("error");
                 }
             }
         })
@@ -61,9 +61,25 @@ var routes = function(User) {
         })
     }
 
+    var deleteProfile = function(req, res) {
+        var email = req.body.email;
+        
+        User.deleteOne({email: email}, function(err, response) {
+            if (err) {
+                console.log(err);
+                res.send("error");
+            } else {
+                console.log('deleting ' + email);
+                req.session.user = "";
+                res.send("success");
+            }
+        })
+    }
+
     return {
         check_login: checkLogin,
-        signup: signup
+        signup: signup,
+        delete_profile: deleteProfile
     }
 }
 
