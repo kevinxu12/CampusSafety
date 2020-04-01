@@ -12,6 +12,7 @@ class PendingRequests extends Component {
     }
     async componentDidMount() {
         // sync with backend later
+        const obj = {hi: 'hi'}
         const fetchedDataRaw = await axios.get('/api/getAllRequests');
         const fetchedData = fetchedDataRaw.data;
         this.setState({data: fetchedData})

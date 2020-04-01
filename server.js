@@ -15,6 +15,7 @@ require('./models/request');
 
 // define routes
 var authRoutes = require('./routes/authroutes.js')(User);
+require('./routes/requestRoutes')(app);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -23,7 +24,7 @@ app.use(bodyParser.json());
 app.post('/api/checklogin/', authRoutes.check_login);
 app.post('/api/signup/', authRoutes.signup);
 
-require('./routes/requestRoutes')(app);
+
 
 app.listen(5000);
 console.log('Server running on port. Now open http://localhost:3000/ in your browser!');
