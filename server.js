@@ -20,7 +20,7 @@ app.use(session({
 //define models
 var User = require("./models/user");
 require('./models/request');
-require('.models/marker');
+require('./models/marker');
 
 // define routes
 var authRoutes = require('./routes/authroutes.js')(User);
