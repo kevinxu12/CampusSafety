@@ -20,10 +20,12 @@ app.use(session({
 //define models
 var User = require("./models/user");
 require('./models/request');
+require('.models/marker');
 
 // define routes
 var authRoutes = require('./routes/authroutes.js')(User);
 require('./routes/requestRoutes')(app);
+require('./routes/markerRoutes')(app);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

@@ -41,8 +41,10 @@ module.exports = (app) => {
                 }
             }
         })
+
+        */
     })
-*/
+
     app.get('/api/getAllMarkers', (req, res) => {
         console.log("getting all markers");
         Request.find({}, (err, response) => {
