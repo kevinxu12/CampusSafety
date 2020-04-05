@@ -46,29 +46,157 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
     }
 
+    //Adding a marker to the map
+    public void addingMarkers(String t, String d, String f, String l, LatLng p){
+        LatLng point = p;
+        String title = t;
+        String description = d;
+        String first = f;
+        String last = l;
+
+        String authorinfo = "By: " + first + " " + last;
+
+        mMap.addMarker(new MarkerOptions()
+                .position(point)
+                .title(title)
+                .snippet(authorinfo + "\n" + description)
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+
+        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+
+            @Override
+            public View getInfoWindow(Marker arg0) {
+                return null;
+            }
+
+            @Override
+            public View getInfoContents(Marker marker) {
+
+                LinearLayout info = new LinearLayout(MapsActivity.this);
+                info.setOrientation(LinearLayout.VERTICAL);
+
+                TextView title = new TextView(MapsActivity.this);
+                title.setTextColor(Color.BLACK);
+                title.setGravity(Gravity.CENTER);
+                title.setTypeface(null, Typeface.BOLD);
+                title.setText(marker.getTitle());
+
+                TextView snippet = new TextView(MapsActivity.this);
+                snippet.setTextColor(Color.GRAY);
+                snippet.setText(marker.getSnippet());
+
+                info.addView(title);
+                info.addView(snippet);
+
+                return info;
+            }
+        });
+
+    }
+
     public void getMarkers(){
         try {
-            URL url = new URL("http://10.0.2.2:5000/api/getAllMarkers");
+            URL url = new URL("http://10.0.2.2:5000/api/getAllRequests");
             HTTPGetRequest task = new HTTPGetRequest();
             task.execute(url.toString());
             JSONArray requestArray = task.get();
+            Log.v(TAG_GET, "i is currently" + requestArray.length());
             for(int i = 0 ; i < requestArray.length(); i ++) {
                 JSONObject request = (JSONObject) requestArray.get(i);
-                testList.add(request);
+
+                String title = (String) request.get("title");
+                String description = (String) request.get("description");
+                String firstname = (String) request.get("firstname");
+                String lastname = (String) request.get("lastname");
+                String location = (String) request.get("location");
+                double latitude = (double) request.get("latitude");
+                double longitude = (double) request.get("longitude");
+
+                addingMarkers(title, description, firstname, lastname, new LatLng(latitude, longitude));
             }
             Log.v(TAG_GET, "value of get is " + requestArray.toString());
         }
         catch (Exception e) {
-
+            Log.v(TAG_GET, "exception is " + e);
         }
 
     }
 
-/*
-    public void addingMarker(){
-        Log.v(TAG_POST, "ADDING NEW MARKER");
 
-    }*/
+    public void postingMarker(String title, String description, String location,
+                              String firstname, String lastname, LatLng point) {
+        try {
+            URL url = new URL("http://10.0.2.2:5000/api/postRequest");
+            JSONObject postData = new JSONObject();
+
+            double latitude = point.latitude;
+            double longitude = point.longitude;
+
+            postData.put("title", title);
+            postData.put("description", description);
+            postData.put("location", location);
+            postData.put("firstname", firstname);
+            postData.put("lastname", lastname);
+            postData.put("latitude", latitude);
+            postData.put("longitude", longitude);
+            HTTPPostRequest task = new HTTPPostRequest(postData);
+            task.execute(url.toString());
+            JSONObject value = task.get();
+            Log.v(TAG_POST, "value of post is " + value.toString());
+        } catch (Exception e) {
+            Log.v(TAG_POST, "error" + e.toString());
+        }
+    }
+
+    public void infoForm(LatLng p){
+        final LatLng point = p;
+        AlertDialog.Builder builder = new AlertDialog.Builder(MapsActivity.this);
+        LinearLayout layout = new LinearLayout(MapsActivity.this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+
+
+        final EditText titleBox = new EditText(MapsActivity.this);
+        titleBox.setHint("Title");
+        layout.addView(titleBox);
+
+
+        final EditText descriptionBox = new EditText(MapsActivity.this);
+        descriptionBox.setHint("Description");
+        layout.addView(descriptionBox);
+
+        final EditText firstNBox = new EditText(MapsActivity.this);
+        firstNBox.setHint("First Name");
+        layout.addView(firstNBox);
+
+
+        final EditText lastNBox = new EditText(MapsActivity.this);
+        lastNBox.setHint("Last Name");
+        layout.addView(lastNBox);
+
+        builder.setView(layout); // Again this is a set method, not add
+
+        // Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String title = titleBox.getText().toString();
+                String description = descriptionBox.getText().toString();
+                String first = firstNBox.getText().toString();
+                String last = lastNBox.getText().toString();
+
+                postingMarker(title, description, "Penn", first, last, point);
+                addingMarkers(title, description, first, last, point);
+
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.show();
+    }
 
     /**
      * Manipulates the map once available.
@@ -82,93 +210,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng philly = new LatLng(39.9522, -75.1932);
         //mMap.addMarker(new MarkerOptions().position(philly).title("Marker in Philadelphia"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(philly, 15));
+        getMarkers();
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
 
             @Override
             public void onMapLongClick(final LatLng point) {
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(MapsActivity.this);
-                LinearLayout layout = new LinearLayout(MapsActivity.this);
-                layout.setOrientation(LinearLayout.VERTICAL);
-
-
-                final EditText titleBox = new EditText(MapsActivity.this);
-                titleBox.setHint("Title");
-                layout.addView(titleBox);
-
-
-                final EditText descriptionBox = new EditText(MapsActivity.this);
-                descriptionBox.setHint("Description");
-                layout.addView(descriptionBox);
-
-                final EditText firstNBox = new EditText(MapsActivity.this);
-                firstNBox.setHint("First Name");
-                layout.addView(firstNBox);
-
-
-                final EditText lastNBox = new EditText(MapsActivity.this);
-                lastNBox.setHint("Last Name");
-                layout.addView(lastNBox);
-
-                builder.setView(layout); // Again this is a set method, not add
-
-                // Set up the buttons
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String title = "Title: " + titleBox.getText().toString();
-                        String description = descriptionBox.getText().toString();
-                        String first = firstNBox.getText().toString();
-                        String last = lastNBox.getText().toString();
-                        String authorinfo = "By: " + first + " " + last;
-
-                        String markerformat = "Title: " + title + "\n" +
-                                "First Name: " + first + "\n" +
-                                "Last Name: " + last + "\n";
-                        mMap.addMarker(new MarkerOptions()
-                                .position(point)
-                                .title(title)
-                                .snippet(authorinfo + "\n" + description)
-                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
-
-                        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
-
-                            @Override
-                            public View getInfoWindow(Marker arg0) {
-                                return null;
-                            }
-
-                            @Override
-                            public View getInfoContents(Marker marker) {
-
-                                LinearLayout info = new LinearLayout(MapsActivity.this);
-                                info.setOrientation(LinearLayout.VERTICAL);
-
-                                TextView title = new TextView(MapsActivity.this);
-                                title.setTextColor(Color.BLACK);
-                                title.setGravity(Gravity.CENTER);
-                                title.setTypeface(null, Typeface.BOLD);
-                                title.setText(marker.getTitle());
-
-                                TextView snippet = new TextView(MapsActivity.this);
-                                snippet.setTextColor(Color.GRAY);
-                                snippet.setText(marker.getSnippet());
-
-                                info.addView(title);
-                                info.addView(snippet);
-
-                                return info;
-                            }
-                        });
-                    }
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                builder.show();
+                infoForm(point);
             }
         });
 
