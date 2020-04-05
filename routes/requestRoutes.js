@@ -4,6 +4,7 @@ module.exports = (app) => {
     // filled out with test information
     app.post('/api/postRequest', (req, res) => {
         console.log("posting new request");
+        console.log(req);
         const putData = req.body;
         // these are all mandatory
         const title = putData.title;
@@ -30,7 +31,7 @@ module.exports = (app) => {
                             console.log("error saving new post request");
                         } else {
                             console.log("success");
-                            res.send("success");
+                            res.json({result: "success"});
                         }
                     })
                 }
