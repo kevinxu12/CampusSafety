@@ -6,7 +6,9 @@ var requestSchema = new Schema({
     description: String, 
     location: String,
     firstname: String,
-    lastname: String
+    lastname: String,
+    latitude: Number,
+    longitude: Number
 })
 
 module.exports = mongoose.model('request', requestSchema);

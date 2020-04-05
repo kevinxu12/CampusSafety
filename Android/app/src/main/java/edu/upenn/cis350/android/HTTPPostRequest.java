@@ -30,7 +30,7 @@ public class HTTPPostRequest extends AsyncTask<String, JSONObject, JSONObject> {
             conn.setDoOutput(true);
             conn.setRequestProperty("Content-Type", "application/json");
             conn.connect();
-
+            Log.v("postData", this.postData.toString());
             // Send the post body
             if(this.postData != null) {
                 OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream());

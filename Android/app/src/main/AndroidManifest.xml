@@ -43,6 +43,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".PostActivity" />
+        <activity android:name=".LogInActivity" />
+        <activity android:name=".SignUpActivity" />
+        <activity android:name=".ProfileActivity" />
+        <activity android:name=".DashboardActivity" />
     </application>
 
 </manifest>

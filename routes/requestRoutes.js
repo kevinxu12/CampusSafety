@@ -11,12 +11,16 @@ module.exports = (app) => {
         const location = putData.location;
         const firstname = putData.firstname;
         const lastname = putData.lastname;
+        const latitude = putData.latitude;
+        const longitude = putData.longitude;
         const newRequest = new Request({
             title: title,
             description: description,
             location: location,
             firstname: firstname,
-            lastname: lastname
+            lastname: lastname,
+            latitude: latitude,
+            longitude: longitude
         })
         Request.findOne({title: title}, (err, resp) => {
             if(err) {
@@ -30,7 +34,7 @@ module.exports = (app) => {
                             console.log("error saving new post request");
                         } else {
                             console.log("success");
-                            res.send("success");
+                            res.json({result: "success"});
                         }
                     })
                 }
