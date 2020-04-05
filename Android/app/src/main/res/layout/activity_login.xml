@@ -40,6 +40,15 @@
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
         android:gravity="center"
-        android:onClick="onButtonClick"
+        android:onClick="onLogInButtonClick"
         android:text="LOG IN" />
+
+    <Button
+        android:id="@+id/signup"
+        android:layout_width="339dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:gravity="center"
+        android:onClick="onSignUpButtonClick"
+        android:text="SIGN UP" />
 </LinearLayout>
