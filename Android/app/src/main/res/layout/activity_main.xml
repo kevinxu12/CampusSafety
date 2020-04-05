@@ -39,6 +39,22 @@
             android:layout_centerInParent="true"
             tools:ignore="MissingConstraints" />
 
+        <Button
+            android:id="@+id/signup"
+            android:layout_width="76dp"
+            android:layout_height="48dp"
+            android:onClick="onSignUpButtonClick"
+            android:text="Sign up"
+            tools:ignore="MissingConstraints" />
+
+        <Button
+            android:id="@+id/login"
+            android:layout_width="142dp"
+            android:layout_height="50dp"
+            android:onClick="onLogInButtonClick"
+            android:text="Log in"
+            tools:ignore="MissingConstraints" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
