@@ -21,11 +21,6 @@ public class PostActivity extends AppCompatActivity {
     RecyclerViewAdapter adapter;
     ArrayList<JSONObject> testList;
     // for testing
-//    private String title = "Crime";
-//    private String description = "Bad";
-//    private String location = "Crime";
-//    private String firstname = "kevin";
-//    private String lastname = "xu";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,12 +70,16 @@ public class PostActivity extends AppCompatActivity {
             EditText locationInput = (EditText) findViewById(R.id.location);
             EditText firstNameInput = (EditText) findViewById(R.id.firstname);
             EditText lastNameInput = (EditText) findViewById(R.id.lastname);
+            EditText latitudeInput = (EditText) findViewById(R.id.latitude);
+            EditText longitudeInput = (EditText) findViewById(R.id.longitude);
 
             String title = titleInput.getText().toString();
             String description = descriptionInput.getText().toString();
             String location = locationInput.getText().toString();
             String firstname = firstNameInput.getText().toString();
             String lastname = lastNameInput.getText().toString();
+            double latitude = Double.parseDouble(latitudeInput.getText().toString());
+            double longitude = Double.parseDouble(longitudeInput.getText().toString());
 
 
             postData.put("title", title);
@@ -88,13 +87,15 @@ public class PostActivity extends AppCompatActivity {
             postData.put("location", location);
             postData.put("firstname", firstname);
             postData.put("lastname", lastname);
+            postData.put("latitude", latitude);
+            postData.put("longitude", longitude);
             HTTPPostRequest task = new HTTPPostRequest(postData);
             task.execute(url.toString());
             JSONObject value = task.get();
             Log.v(TAG_POST, "value of post is " + value.toString());
         }
         catch (Exception e) {
-
+            Log.v(TAG_POST, "erorr" + e.toString());
         }
     }
 
