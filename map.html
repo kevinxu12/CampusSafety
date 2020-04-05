@@ -1,0 +1,85 @@
+<h3>My Google Maps Demo</h3>
+<!--The div element for the map -->
+<body>
+    <div id="map" style ='height:80%'></div>
+</body>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfrluMAdHSTHOfGDf9fsar7YUWL9HncK4">
+</script>
+<script>
+  var map;
+  // define global array to store markers added
+  var markersArray = []; 
+
+  var contentsArray = [];
+  
+  var curMarker = 0;
+
+  function initMap() {
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: {lat: 39.9522, lng: -75.1932},
+      zoom: 15
+    });
+    google.maps.event.addListener(map, 'click', function(e) {
+      //var markerIndex = curMarker.toString();
+      markersArray[curMarker] = new google.maps.Marker({
+        map: map,
+        position: e.latLng,
+        draggable: true,
+        title: curMarker.toString()
+      });
+      //store the marker object drawn on map in global array
+      var marker = markersArray[curMarker];
+      curMarker = curMarker + 1;
+
+      var infoWindow = new google.maps.InfoWindow();
+      marker.addListener('click', function() {
+          var ind = parseInt(marker.title, 10);
+          var contentString = contentsArray[ind];
+          if (contentString != null) {
+            var update = prompt("Edit description", contentString);
+            contentsArray[ind] = update;
+          }
+          else {
+            var update = prompt("Add marker description");
+            contentsArray[ind] = update;
+          }
+          infoWindow.setContent(contentsArray[ind]);
+          infoWindow.open(map, marker);
+          //var contentString = prompt("Edit marker description", "");
+      });
+    });
+  }
+  
+//   // define function to add marker at given lat & lng
+//   function addMarker(latLng) {
+//     let marker = new google.maps.Marker({
+//         map: map,
+//         position: latLng,
+//         draggable: true
+//     });
+//     //store the marker object drawn on map in global array
+//     markersArray[curMarker] = marker;
+//     curMarker = curMarker + 1;
+    
+//     var content = "<span class='destination name' onclick='edit_marker_description'(\"" + "\", this)'>" + "</span>";
+//     var infoWindow = new google.maps.InfoWindow();
+    
+//     google.maps.event.addListener(marker, 'click', (function(marker, infoWindow, content) {
+//     	return function() {
+//         infoWindow.setContent(content);
+//         infoWindow.open(marker);
+//       }
+//     }) (marker, infoWindow, content));
+//   }
+  
+//   function addWindow(content, latLng, marker) {
+//     let infoWindow = new google.maps.InfoWindow({
+//     	content: content,
+//       position: latLng
+//     });
+//     google.maps.events.addListener(marker, "click", function(){
+//     	infoWindow.open(content);
+//     });
+//   }
+  google.maps.event.addDomListener(window, 'load', initMap());
+</script>
