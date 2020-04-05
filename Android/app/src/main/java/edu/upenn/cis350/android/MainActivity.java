@@ -28,4 +28,18 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(this, MapsActivity.class);
         MainActivity.this.startActivity(i);
     }
+
+    public void onLogInButtonClick(View view) {
+        // the intent connects the two classes
+        Log.v(TAG, "called login");
+        Intent i = new Intent(this, LogInActivity.class);
+        MainActivity.this.startActivity(i);
+    }
+
+    public void onSignUpButtonClick(View view) {
+        // the intent connects the two classes
+        Log.v(TAG, "called signup");
+        Intent i = new Intent(this, SignUpActivity.class);
+        MainActivity.this.startActivity(i);
+    }
 }
