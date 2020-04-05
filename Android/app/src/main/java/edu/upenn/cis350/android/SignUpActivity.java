@@ -60,7 +60,7 @@ public class SignUpActivity extends AppCompatActivity {
             task.execute(url.toString());
             JSONObject value = task.get();
             Log.v(TAG_POST, "value of post is " + value.toString());
-            Intent i = new Intent(this, ProfileActivity.class);
+            Intent i = new Intent(this, DashboardActivity.class);
             SignUpActivity.this.startActivity(i);
         }
         catch (Exception e) {

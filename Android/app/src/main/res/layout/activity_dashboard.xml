@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DashboardActivity"
+    android:orientation="vertical">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit Request"
+        android:id="@+id/post_button"
+        android:onClick="onPostNavButtonClick"
+        android:layout_centerInParent="true"
+        android:layout_margin="40dp"
+        android:layout_gravity="center_vertical|center_horizontal"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/map_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="40dp"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:onClick="onMapButtonClick"
+        android:text="Map"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/profileButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="40dp"
+        android:gravity="center"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:onClick="onProfileButtonClick"
+        android:text="View Profile"
+        tools:ignore="MissingConstraints" />
+
+</LinearLayout>
