@@ -2,6 +2,12 @@ const mongoose = require('mongoose');
 const Account = mongoose.model('accounts');
 var user = null;
 
+var logOut = function(req, res) {
+    var user = null;
+    req.session.user = "";
+    res.json({result: "success"});
+}
+
 var deleteUser = function(req, res) {
     var email = user;
     
@@ -94,7 +100,8 @@ var routes = {
   sign_up: signUp,
   log_in: logIn,
   get_user: getUser,
-  delete_user: deleteUser
+  delete_user: deleteUser,
+  log_out: logOut
 };
 
 module.exports = routes;

@@ -24,9 +24,14 @@ public class LogInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
     }
 
-    public void onButtonClick(View view) {
+    public void onLogInButtonClick(View view) {
         Log.v(TAG_POST, "Getting user");
         getUser();
+    }
+
+    public void onSignUpButtonClick(View view) {
+        Intent i = new Intent(this, SignUpActivity.class);
+        LogInActivity.this.startActivity(i);
     }
 
     private void getUser() {

@@ -8,6 +8,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Spinner;
 
+import org.json.JSONObject;
+
+import java.net.URL;
+
 public class DashboardActivity extends AppCompatActivity {
     private static final String TAG = "MAIN";
     @Override
@@ -33,5 +37,32 @@ public class DashboardActivity extends AppCompatActivity {
         Log.v(TAG, "called profile");
         Intent i = new Intent(this, ProfileActivity.class);
         DashboardActivity.this.startActivity(i);
+    }
+
+    public void onLogOutButtonClick(View view) {
+        Log.v(TAG, "called logout");
+        logOut();
+        Intent i = new Intent(this, MainActivity.class);
+        DashboardActivity.this.startActivity(i);
+    }
+
+    private void logOut() {
+        try {
+            URL url = new URL("http://10.0.2.2:5000/api/applogout/");
+            JSONObject postData = new JSONObject();
+
+            HTTPPostRequest task = new HTTPPostRequest(postData);
+            task.execute(url.toString());
+            JSONObject value = task.get();
+            String result = value.getString("result");
+            if (result.equals("success")) {
+                Intent i = new Intent(this, MainActivity.class);
+                DashboardActivity.this.startActivity(i);
+            }
+
+        }
+        catch (Exception e) {
+            Log.v(TAG, "Exception " + e.toString());
+        }
     }
 }
