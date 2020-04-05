@@ -34,6 +34,16 @@ class AdminDashboard extends Component {
         })
     }
 
+    signOut() {
+        console.log('signing out');
+        localStorage.removeItem("email");
+        this.props.history.push({
+            pathname: '/'
+        });
+    }
+
+
+
     renderMainPage() {
         console.log(this.state);
         if (this.state.currentPage === 'Home') {
@@ -56,8 +66,12 @@ class AdminDashboard extends Component {
                             <Nav.Link onClick={() => { this.setState({ currentPage: 'Pending Requests' }) }}>Pending Requests</Nav.Link>
                             <Nav.Link href="#pricing">Accepted Requests</Nav.Link>
                             <Nav.Item className="ml-auto">
+                            <div class="button-container">
                                 <Button className="button" variant="outline-light" onClick={() => {this.deleteProfile()}}> Delete Profile </Button>
-                                <Button className="button" variant="outline-light"> Log Out</Button> 
+                                <Button className="button" variant="outline-light" onClick={() => {this.signOut()}}> Log Out</Button> 
+                            </div>
+
+
                             </Nav.Item>
                             
                         </Nav>

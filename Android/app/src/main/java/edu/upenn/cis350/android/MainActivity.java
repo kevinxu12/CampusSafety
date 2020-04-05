@@ -22,4 +22,10 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(this, PostActivity.class);
         MainActivity.this.startActivity(i);
     }
+
+    public void onMapButtonClick(View view) {
+        Log.v(TAG, "called maps");
+        Intent i = new Intent(this, MapsActivity.class);
+        MainActivity.this.startActivity(i);
+    }
 }

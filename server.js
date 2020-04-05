@@ -3,13 +3,20 @@ var app = express();
 var session = require('express-session');
 const bodyParser = require('body-parser');
 var mongoose = require("mongoose");
+<<<<<<< HEAD
 //var uri = "mongodb+srv://vinkebot:7i81X7J02X88LC8k@firstcluster-u93p5.mongodb.net/test?retryWrites=true&w=majority"
 //var uri = "mongodb+srv://mattkim:minwoo123@cluster0-un1ah.mongodb.net/test?retryWrites=true&w=majority"
-var uri = "mongodb+srv://mariatu:Maria2000@cluster0-oa2j0.mongodb.net/test?retryWrites=true&w=majority"
+//var uri = "mongodb+srv://mariatu:Maria2000@cluster0-oa2j0.mongodb.net/test?retryWrites=true&w=majority"
+=======
+var uri = "mongodb+srv://vinkebot:7i81X7J02X88LC8k@firstcluster-u93p5.mongodb.net/test?retryWrites=true&w=majority"
+//var uri = "mongodb+srv://mattkim:minwoo123@cluster0-un1ah.mongodb.net/test?retryWrites=true&w=majority"
+>>>>>>> 10104f722d1c4bad72ec9319f8b816f834c63cba
 mongoose.connect(uri);
 mongoose.connection.on('connected', function(){
     console.log("connected to mongo db instance");
 });
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 app.use(session({
     resave: true,
@@ -21,14 +28,14 @@ app.use(session({
 var User = require("./models/user");
 var Account = require("./models/account");
 require('./models/request');
+require('./models/marker');
 
 // define routes
 var authRoutes = require('./routes/authroutes.js')(User);
 var accRoutes = require('./routes/accountRoutes.js');
 require('./routes/requestRoutes')(app);
+require('./routes/markerRoutes')(app);
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
 
 
 // install routes
