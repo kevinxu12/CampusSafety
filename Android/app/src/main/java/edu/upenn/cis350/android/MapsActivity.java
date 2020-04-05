@@ -11,12 +11,18 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import android.app.AlertDialog;
 import android.widget.EditText;
 import android.text.InputType;
 import android.content.DialogInterface;
 import android.widget.LinearLayout;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.view.Gravity;
 
 import java.net.URL;
 import org.json.JSONArray;
@@ -58,9 +64,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-
+/*
     public void addingMarker(){
         Log.v(TAG_POST, "ADDING NEW MARKER");
+
+    }*/
+
+    /**
+     * Manipulates the map once available.
+     * This callback is triggered when the map is ready to be used.
+     */
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+
+        // Add a marker in Philadelphia and move the camera
+        LatLng philly = new LatLng(39.9522, -75.1932);
+        //mMap.addMarker(new MarkerOptions().position(philly).title("Marker in Philadelphia"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(philly, 15));
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
 
             @Override
@@ -95,18 +116,50 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String title = titleBox.getText().toString();
+                        String title = "Title: " + titleBox.getText().toString();
                         String description = descriptionBox.getText().toString();
                         String first = firstNBox.getText().toString();
                         String last = lastNBox.getText().toString();
+                        String authorinfo = "By: " + first + " " + last;
 
                         String markerformat = "Title: " + title + "\n" +
-                                "Description: " + description + "\n" +
                                 "First Name: " + first + "\n" +
                                 "Last Name: " + last + "\n";
                         mMap.addMarker(new MarkerOptions()
                                 .position(point)
-                                .title(markerformat));
+                                .title(title)
+                                .snippet(authorinfo + "\n" + description)
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+
+                        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+
+                            @Override
+                            public View getInfoWindow(Marker arg0) {
+                                return null;
+                            }
+
+                            @Override
+                            public View getInfoContents(Marker marker) {
+
+                                LinearLayout info = new LinearLayout(MapsActivity.this);
+                                info.setOrientation(LinearLayout.VERTICAL);
+
+                                TextView title = new TextView(MapsActivity.this);
+                                title.setTextColor(Color.BLACK);
+                                title.setGravity(Gravity.CENTER);
+                                title.setTypeface(null, Typeface.BOLD);
+                                title.setText(marker.getTitle());
+
+                                TextView snippet = new TextView(MapsActivity.this);
+                                snippet.setTextColor(Color.GRAY);
+                                snippet.setText(marker.getSnippet());
+
+                                info.addView(title);
+                                info.addView(snippet);
+
+                                return info;
+                            }
+                        });
                     }
                 });
                 builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -119,22 +172,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-    }
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     */
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-
-        // Add a marker in Philadelphia and move the camera
-        LatLng philly = new LatLng(39.9522, -75.1932);
-        //mMap.addMarker(new MarkerOptions().position(philly).title("Marker in Philadelphia"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(philly, 15));
-        //getMarkers();
-        addingMarker();
 
     }
 }
