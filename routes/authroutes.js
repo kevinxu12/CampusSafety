@@ -7,7 +7,7 @@ var routes = function(User) {
             if (err) {
                 console.log(err);
             } else {
-                if (response[0].password.localeCompare(password) == 0) {
+                if (response.length != 0) {
                     console.log("Successful login");
                     req.session.user = response[0].username;
                     res.send("success");
