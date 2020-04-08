@@ -23,13 +23,13 @@ app.use(session({
 }));
 
 //define models
-var User = require("./models/user");
+var Admin = require("./models/admin");
 var Account = require("./models/account");
 require('./models/request');
 require('./models/marker');
 
 // define routes
-var authRoutes = require('./routes/authroutes.js')(User);
+var authRoutes = require('./routes/authroutes.js')(Admin);
 var accRoutes = require('./routes/accountRoutes.js');
 require('./routes/requestRoutes')(app);
 require('./routes/markerRoutes')(app);

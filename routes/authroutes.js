@@ -1,9 +1,9 @@
-var routes = function(User) {
+var routes = function(Admin) {
     var checkLogin = function(req, res) {
         var email = req.body.email;
         var password = req.body.password;
 
-        User.find({email: email}, function(err, response) {
+        Admin.find({email: email}, function(err, response) {
             if (err) {
                 console.log(err);
             } else {
@@ -29,7 +29,7 @@ var routes = function(User) {
         var university = req.body.university;
         var admin = true;
 
-        var newUser = new User({
+        var newAdmin = new Admin({
             email: email,
             password: password,
             firstName: firstname,
@@ -40,14 +40,14 @@ var routes = function(User) {
             admin: admin
         });
 
-        User.find({email: email}, function(err, response) {
+        Admin.find({email: email}, function(err, response) {
             if (err) {
                 console.log(err);
             } else {
                 if (response.length != 0) {
                     res.send("user exists");
                 } else {
-                    newUser.save(function (err, response) {
+                    newAdmin.save(function (err, response) {
                         if (err) {
                             console.log(err);
                             res.send("error");
@@ -64,7 +64,7 @@ var routes = function(User) {
     var deleteProfile = function(req, res) {
         var email = req.body.email;
         
-        User.deleteOne({email: email}, function(err, response) {
+        Admin.deleteOne({email: email}, function(err, response) {
             if (err) {
                 console.log(err);
                 res.send("error");

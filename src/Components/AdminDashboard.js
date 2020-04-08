@@ -58,8 +58,8 @@ class AdminDashboard extends Component {
         return (
             <div>
                 <div class="wrapper">
-                    <Navbar bg="primary" variant="dark">
-                        <Navbar.Brand>Penn Safety</Navbar.Brand>
+                    <Navbar className="navbar" bg="primary" variant="dark">
+                        <Navbar.Brand className="navbar-title">Penn Safety</Navbar.Brand>
                         <Nav className="container-fluid">
                             <Nav.Link onClick={() => { this.setState({ currentPage: 'Home' }) }}>Home</Nav.Link>
                             <Nav.Link href="#features">Map</Nav.Link>

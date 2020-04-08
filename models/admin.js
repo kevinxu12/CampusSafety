@@ -1,7 +1,7 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
-var UserSchema = new Schema({
+var AdminSchema = new Schema({
   email: {type: String},
   password: {type: String},
   firstName: {type: String},
@@ -12,4 +12,4 @@ var UserSchema = new Schema({
   admin: {type: Boolean}
 });
 
-module.exports = mongoose.model("User", UserSchema);
+module.exports = mongoose.model("Admin", AdminSchema);
