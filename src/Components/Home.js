@@ -93,13 +93,9 @@ class Home extends Component {
 
     render () {
         let alert;
-        if (this.state.alert === "valid") {
-            var title = this.state.title + " ";
-            alert = <Alert variant="success"> {title} successfully submitted </Alert>
-            this.setState({
-                title: ''
-            });
-        } else if (this.state.alert === "invalid") {
+        if (this.state.validPost === "valid") {
+            alert = <Alert variant="success"> Post successfully submitted! </Alert>
+        } else if (this.state.validPost === "invalid") {
             alert = <Alert variant="danger"> Unsuccessful post. Please try again. </Alert>
         }
 
@@ -117,31 +113,31 @@ class Home extends Component {
                                 <Form onSubmit = {this.handleSubmit}>
                                     <Form.Group controlId="formTitle">
                                         <Form.Label>Title</Form.Label>
-                                        <Form.Control type="title" placeholder="Title" onChange = {this.handleTitle}/>
+                                        <Form.Control value={this.state.title} type="title" placeholder="Title" onChange = {this.handleTitle}/>
                                     </Form.Group>
                                     <Form.Group controlId="formDescription">
                                         <Form.Label>Description</Form.Label>
-                                        <Form.Control type="description" placeholder="Description" onChange = {this.handleDescription}/>
+                                        <Form.Control value={this.state.description} type="description" placeholder="Description" onChange = {this.handleDescription}/>
                                     </Form.Group>
                                     <Form.Group controlId="formLocation">
                                         <Form.Label>Location</Form.Label>
-                                        <Form.Control type="location" placeholder="Location" onChange = {this.handleLocation}/>
+                                        <Form.Control value={this.state.location} type="location" placeholder="Location" onChange = {this.handleLocation}/>
                                     </Form.Group>
                                     <Form.Group controlId="formFirstName">
                                         <Form.Label>First Name</Form.Label>
-                                        <Form.Control type="firstname" placeholder="First Name" onChange = {this.handleFirstname}/> 
+                                        <Form.Control value={this.state.firstname} type="firstname" placeholder="First Name" onChange = {this.handleFirstname}/> 
                                     </Form.Group>
                                     <Form.Group controlId="formLastName">
                                         <Form.Label>Last Name</Form.Label>
-                                        <Form.Control type="lastname" placeholder="Last Name" onChange = {this.handleLastname}/>
+                                        <Form.Control value={this.state.lastname} type="lastname" placeholder="Last Name" onChange = {this.handleLastname}/>
                                     </Form.Group>
                                     <Form.Group controlId="formLatitude">
                                         <Form.Label>Latitude</Form.Label>
-                                        <Form.Control type="latitude" placeholder="Latitude" onChange = {this.handleLatitude}/>
+                                        <Form.Control value={this.state.latitude} type="latitude" placeholder="Latitude" onChange = {this.handleLatitude}/>
                                     </Form.Group>
                                     <Form.Group controlId="formLongitude">
                                         <Form.Label>Longitude</Form.Label>
-                                        <Form.Control type="longitude" placeholder="Longitude" onChange = {this.handleLongitude}/>
+                                        <Form.Control value={this.state.longitude} type="longitude" placeholder="Longitude" onChange = {this.handleLongitude}/>
                                     </Form.Group>
                                     <div class="button">
                                         <Button variant="primary" type="submit">

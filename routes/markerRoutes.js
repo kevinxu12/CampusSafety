@@ -1,5 +1,4 @@
 var routes = function(Request, Marker) {
-
     var getAllMarkers = function(req, res) {
         console.log("getting all markers");
         Marker.find({}, (err, response) => {
@@ -95,3 +94,5 @@ var routes = function(Request, Marker) {
         post_admin_marker: postAdminMarker
     }
 }
+
+module.exports = routes;
