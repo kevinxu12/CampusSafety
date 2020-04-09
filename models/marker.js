@@ -6,6 +6,7 @@ var markerSchema = new Schema({
     longitude: Number,
     title: String, 
     description: String, 
+    location: String,
     firstname: String,
     lastname: String
 })

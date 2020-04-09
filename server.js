@@ -22,19 +22,23 @@ app.use(session({
     saveUnitialized: true
 }));
 
+
+// PLEASE READ -
+// Make of note between Marker and Request schemas - when users submit requests, these should be in the
+// request database, and when admins approve these requests, the corresponding request should be deleted
+// from the request database and added to the marker database
+
 //define models
 var Admin = require("./models/admin");
 var Account = require("./models/account");
-require('./models/request');
-require('./models/marker');
+var Request = require('./models/request');
+var Marker = require('./models/marker');
 
 // define routes
 var authRoutes = require('./routes/authroutes.js')(Admin);
 var accRoutes = require('./routes/accountRoutes.js');
+var markerRoutes = require('./routes/markerRoutes.js')(Request, Marker);
 require('./routes/requestRoutes')(app);
-require('./routes/markerRoutes')(app);
-
-
 
 // install routes
 app.post('/api/checklogin/', authRoutes.check_login);
@@ -45,7 +49,9 @@ app.post('/api/applogin/', accRoutes.log_in);
 app.get('/api/appprofile/', accRoutes.get_user);
 app.post('/api/appdeleteprofile/', accRoutes.delete_user);
 app.post('/api/applogout/', accRoutes.log_out);
-
+app.post('/api/postusermarker/', markerRoutes.post_user_marker);
+app.get('/api/getallmarkers/', markerRoutes.get_all_markers);
+app.post('/api/postadminmarker/', markerRoutes.post_admin_marker);
 
 
 app.listen(5000);

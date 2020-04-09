@@ -1,4 +1,10 @@
 import React, { Component } from 'react'
+import Container from 'react-bootstrap/Container'
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
+import Alert from 'react-bootstrap/Alert'
+import Marker from './../Middleware/Marker'
+
 
 class Home extends Component {
 
@@ -11,7 +17,8 @@ class Home extends Component {
             description: '',
             location: '',
             latitude: '',
-            longitude: ''
+            longitude: '',
+            validPost: ''
         }
     }
 
@@ -57,10 +64,51 @@ class Home extends Component {
         })
     }
 
+    handleSubmit = (event) => {
+        event.preventDefault();
+
+        var obj = {title: this.state.title, description: this.state.description, location: this.state.location, firstname: this.state.firstname, lastname: this.state.lastname, latitude: this.state.latitude, longitude: this.state.longitude};
+        Marker.adminPost(obj, (result) => {
+            if (result === "success") {
+                this.setState({
+                    validPost: "valid",
+                    firstname: '',
+                    lastname: '',
+                    title: '',
+                    description: '',
+                    location: '',
+                    latitude: '',
+                    longitude: ''
+                })
+            } else {
+                this.setState({
+                    validPost: "invalid"
+                })
+            }
+        })
+
+
+    }
+
 
     render () {
+        let alert;
+        if (this.state.alert === "valid") {
+            var title = this.state.title + " ";
+            alert = <Alert variant="success"> {title} successfully submitted </Alert>
+            this.setState({
+                title: ''
+            });
+        } else if (this.state.alert === "invalid") {
+            alert = <Alert variant="danger"> Unsuccessful post. Please try again. </Alert>
+        }
+
+
         return (
             <div>
+                <div> 
+                {alert}
+                </div>
                 <div class="container">
                     <Container fluid="lg">
                         <h1 class="sign-in"> Submit Post</h1>
