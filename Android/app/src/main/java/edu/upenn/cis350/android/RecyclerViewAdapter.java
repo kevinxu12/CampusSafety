@@ -12,12 +12,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.json.JSONObject;
 
 import java.util.List;
-
+// Tutorial for recycler view adapter based off
+// https://stackoverflow.com/questions/40584424/simple-android-recyclerview-example
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     private List<JSONObject> mData;
     private LayoutInflater mInflater;
-    private ItemClickListener mClickListener;
 
     // data is passed into the constructor
     RecyclerViewAdapter(Context context, List<JSONObject> data) {
@@ -55,7 +55,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
 
     // stores and recycles views as they are scrolled off screen
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView title;
         TextView description;
         TextView username;
@@ -67,15 +67,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             username = itemView.findViewById(R.id.username);
         }
 
-        @Override
-        public void onClick(View view) {
-            if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
-        }
     }
 
-
-    // parent activity will implement this method to respond to click events
-    public interface ItemClickListener {
-        void onItemClick(View view, int position);
-    }
 }

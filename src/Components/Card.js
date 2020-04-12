@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
 import '../Style/Card.css'
 class Card extends Component {
-
+    constructor(props) {
+        super(props)
+        this.acceptRequest = this.acceptRequest.bind(this);
+    }
     acceptRequest() {
-        console.log("accepting request");
+        this.props.acceptRequest(this.props.data._id);
     }
     render() {
         return (
