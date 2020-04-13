@@ -3,17 +3,14 @@ import Card from './Card';
 import axios from 'axios';
 import { throwStatement } from '@babel/types';
 
-const testData = [
-    {name: "Maria", title: "hungry", description: "also hungry rn", location: "Towne" }, 
-    {name: "Matt", title: "hungry", description: "hungry rn", location: "houston"}, 
-    {name: "Randy", title: "Attacked avoid pls", description: "attacked!", location: "40th and locust"}]
 class PendingRequests extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            data: testData
+            data: []
         }
         this.acceptRequest = this.acceptRequest.bind(this);
+        this.rejectRequest = this.rejectRequest.bind(this);
     }
     async componentDidMount() {
         // sync with backend later
@@ -27,14 +24,23 @@ class PendingRequests extends Component {
         const obj = {
             _id: id
         }
-        const response = axios.post('/api/acceptRequest', obj);
+        axios.post('/api/acceptRequest', obj);
+        this.setState({data: this.state.data.filter((entry) => {return entry._id != id})});
+    }
+
+    rejectRequest(id) {
+        console.log("rejecting request");
+        const obj = {
+            _id: id
+        }
+        axios.post('/api/rejectRequest', obj);
         this.setState({data: this.state.data.filter((entry) => {return entry._id != id})});
     }
 
     renderCards() {
         return this.state.data.map((request) => {
             console.log(request);
-            return <Card data = {request} acceptRequest = {this.acceptRequest}/>
+            return <Card data = {request} acceptRequest = {this.acceptRequest} rejectRequest = {this.rejectRequest}/>
         })
     }
     render () {

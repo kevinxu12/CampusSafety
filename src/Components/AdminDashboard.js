@@ -6,7 +6,7 @@ import Navbar from 'react-bootstrap/Navbar'
 import Button from 'react-bootstrap/Button'
 import PendingRequests from './PendingRequests';
 import Auth from '../Middleware/Auth'
-
+import AcceptingRequests from './AcceptedRequests'
 class AdminDashboard extends Component {
 
     constructor(props) {
@@ -50,6 +50,8 @@ class AdminDashboard extends Component {
             return <Home />
         } else if (this.state.currentPage === 'Pending Requests') {
             return <PendingRequests />
+        } else if (this.state.currentPage === 'Accepting Requests') {
+            return <AcceptingRequests />
         }
     }
 
@@ -64,7 +66,7 @@ class AdminDashboard extends Component {
                             <Nav.Link onClick={() => { this.setState({ currentPage: 'Home' }) }}>Home</Nav.Link>
                             <Nav.Link href="#features">Map</Nav.Link>
                             <Nav.Link onClick={() => { this.setState({ currentPage: 'Pending Requests' }) }}>Pending Requests</Nav.Link>
-                            <Nav.Link href="#pricing">Accepted Requests</Nav.Link>
+                            <Nav.Link onClick={() => {this.setState({currentPage: 'Accepting Requests'})}} href="#pricing">Accepted Requests</Nav.Link>
                             <Nav.Item className="ml-auto">
                             <div class="button-container">
                                 <Button className="button" variant="outline-light" onClick={() => {this.deleteProfile()}}> Delete Profile </Button>

@@ -41,6 +41,7 @@ var accRoutes = require('./routes/accountRoutes.js');
 var markerRoutes = require('./routes/markerRoutes.js')(Request, Marker);
 require('./routes/requestRoutes')(app);
 require('./routes/notificationRoutes')(app);
+require('./routes/alertRoutes')(app);
 
 
 
