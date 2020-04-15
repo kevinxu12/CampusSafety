@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import Alert from 'react-bootstrap/Alert'
 import Marker from './../Middleware/Marker'
+import Broadcast from './../Middleware/Broadcast'
 
 
 class Home extends Component {
@@ -13,12 +14,16 @@ class Home extends Component {
         this.state = {
             firstname: '',
             lastname: '',
-            title: '',
-            description: '',
+            posttitle: '',
+            postdescription: '',
             location: '',
             latitude: '',
             longitude: '',
-            validPost: ''
+            validPost: '',
+            title: '',
+            description: '',
+            author: '',
+            validBroadcast: '',
         }
     }
 
@@ -34,15 +39,15 @@ class Home extends Component {
         })
     }
 
-    handleTitle = (event) => {
+    handlePostTitle = (event) => {
         this.setState({
-            title: event.target.value
+            posttitle: event.target.value
         })
     }
 
-    handleDescription = (event) => {
+    handlePostDescription = (event) => {
         this.setState({
-            description: event.target.value
+            postdescription: event.target.value
         })
     }
 
@@ -64,18 +69,52 @@ class Home extends Component {
         })
     }
 
-    handleSubmit = (event) => {
+    handleTitle = (event) => {
+        this.setState({
+            title: event.target.value
+        })
+    }
+
+    handleDescription = (event) => {
+        this.setState({
+            description: event.target.value
+        })
+    }
+
+    handleBroadcastSubmit = (event) => {
         event.preventDefault();
 
-        var obj = {title: this.state.title, description: this.state.description, location: this.state.location, firstname: this.state.firstname, lastname: this.state.lastname, latitude: this.state.latitude, longitude: this.state.longitude};
+        var obj = {title: this.state.title, description: this.state.description, author: this.state.author};
+        Broadcast.makebroadcast(obj, (result) => {
+            if (result === "success") {
+                this.setState({
+                    validBroadcast: "valid",
+                    title: '',
+                    description: '',
+                    author: ''
+                })
+            } else {
+                this.setState({
+                    validBroadcast: "invalid"
+                })
+            }
+        })
+
+        
+    }
+
+    handlePostSubmit = (event) => {
+        event.preventDefault();
+
+        var obj = {posttitle: this.state.posttitle, postdescription: this.state.postdescription, location: this.state.location, firstname: this.state.firstname, lastname: this.state.lastname, latitude: this.state.latitude, longitude: this.state.longitude};
         Marker.adminPost(obj, (result) => {
             if (result === "success") {
                 this.setState({
                     validPost: "valid",
                     firstname: '',
                     lastname: '',
-                    title: '',
-                    description: '',
+                    posttitle: '',
+                    postdescription: '',
                     location: '',
                     latitude: '',
                     longitude: ''
@@ -86,38 +125,46 @@ class Home extends Component {
                 })
             }
         })
-
-
     }
 
 
     render () {
         let alert;
+        let alertBroadcast;
         if (this.state.validPost === "valid") {
             alert = <Alert variant="success"> Post successfully submitted! </Alert>
         } else if (this.state.validPost === "invalid") {
             alert = <Alert variant="danger"> Unsuccessful post. Please try again. </Alert>
         }
 
+        if (this.state.validBroadcast === "valid") {
+            alertBroadcast = <Alert variant="success"> Broadcast successfully submitted! </Alert>
+        } else if (this.state.validBroadcast === "invalid") {
+            alertBroadcast = <Alert variant="danger"> Unsuccessful broadcast. Please try again. </Alert>
+        }
 
         return (
             <div>
                 <div> 
                 {alert}
                 </div>
+                <div> 
+                {alertBroadcast}
+                </div>
+                {/* for making a marker */}
                 <div class="container">
                     <Container fluid="lg">
                         <h1 class="sign-in"> Submit Post</h1>
                         <div class="card-container">
                             <div class="card">
-                                <Form onSubmit = {this.handleSubmit}>
-                                    <Form.Group controlId="formTitle">
+                                <Form onSubmit = {this.handlePostSubmit}>
+                                    <Form.Group controlId="formPostTitle">
                                         <Form.Label>Title</Form.Label>
-                                        <Form.Control value={this.state.title} type="title" placeholder="Title" onChange = {this.handleTitle}/>
+                                        <Form.Control value={this.state.posttitle} type="posttitle" placeholder="Title" onChange = {this.handlePostTitle}/>
                                     </Form.Group>
-                                    <Form.Group controlId="formDescription">
+                                    <Form.Group controlId="formPostDescription">
                                         <Form.Label>Description</Form.Label>
-                                        <Form.Control value={this.state.description} type="description" placeholder="Description" onChange = {this.handleDescription}/>
+                                        <Form.Control value={this.state.postdescription} type="postdescription" placeholder="Description" onChange = {this.handlePostDescription}/>
                                     </Form.Group>
                                     <Form.Group controlId="formLocation">
                                         <Form.Label>Location</Form.Label>
@@ -142,6 +189,38 @@ class Home extends Component {
                                     <div class="button">
                                         <Button variant="primary" type="submit">
                                             Submit Post
+                                        </Button>
+                                    </div>
+                                </Form>
+                            </div>
+                        </div>
+                    </Container>
+                </div>
+
+
+                {/* for making a broadcast to users */}
+
+                <div class="container">
+                    <Container fluid="lg">
+                        <h1 class="sign-in"> Submit Broadcast</h1>
+                        <div class="card-container">
+                            <div class="card">
+                                <Form onSubmit = {this.handleBroadcastSubmit}>
+                                    <Form.Group controlId="formTitle">
+                                        <Form.Label>Title</Form.Label>
+                                        <Form.Control value={this.state.title} type="title" placeholder="Title" onChange = {this.handleTitle}/>
+                                    </Form.Group>
+                                    <Form.Group controlId="formDescription">
+                                        <Form.Label>Description</Form.Label>
+                                        <Form.Control value={this.state.description} type="description" placeholder="Description" onChange = {this.handleDescription}/>
+                                    </Form.Group>
+                                    <Form.Group controlId="formAuthor">
+                                        <Form.Label>Author</Form.Label>
+                                        <Form.Control value={this.state.author} type="author" placeholder="Author" onChange = {this.handleAuthor}/>
+                                    </Form.Group>
+                                    <div class="button">
+                                        <Button variant="primary" type="submit">
+                                            Submit Broadcast
                                         </Button>
                                     </div>
                                 </Form>

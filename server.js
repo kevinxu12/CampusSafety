@@ -29,9 +29,10 @@ app.use(session({
 
 //define models
 var Admin = require("./models/admin");
-var Account = require("./models/Account");
-var Marker = require('./models/Marker');
-var Request = require('./models/Request');
+var Account = require("./models/account");
+var Marker = require('./models/marker');
+var Request = require('./models/request');
+var Broadcast = require('./models/broadcast');
 require('./models/Notification');
 require('./models/Alert');
 
@@ -39,6 +40,7 @@ require('./models/Alert');
 var authRoutes = require('./routes/authroutes.js')(Admin);
 var accRoutes = require('./routes/accountRoutes.js');
 var markerRoutes = require('./routes/markerRoutes.js')(Request, Marker);
+var broadcastRoutes = require('./routes/broadcastRoutes')(Broadcast);
 require('./routes/requestRoutes')(app);
 require('./routes/notificationRoutes')(app);
 require('./routes/alertRoutes')(app);
@@ -57,6 +59,7 @@ app.post('/api/applogout/', accRoutes.log_out);
 app.post('/api/postusermarker/', markerRoutes.post_user_marker);
 app.get('/api/getallmarkers/', markerRoutes.get_all_markers);
 app.post('/api/postadminmarker/', markerRoutes.post_admin_marker);
+app.post('/api/makebroadcast/', broadcastRoutes.make_broadcast);
 
 
 app.listen(5000);
