@@ -81,6 +81,12 @@ class Home extends Component {
         })
     }
 
+    handleAuthor = (event) => {
+        this.setState({
+            author: event.target.value
+        })
+    }
+
     handleBroadcastSubmit = (event) => {
         event.preventDefault();
 

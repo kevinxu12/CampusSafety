@@ -5,7 +5,7 @@ var routes = function(Broadcast) {
         var title = req.body.title;
         var description = req.body.description;
         var author = req.body.author;
-        var time = timestamp('YYYY/MM/DD,HH:MM:SS');
+        var time = timestamp('YYYY/MM/DD,HH:mm:ss');
 
         var newBroadcast = new Broadcast({
             title: title,
