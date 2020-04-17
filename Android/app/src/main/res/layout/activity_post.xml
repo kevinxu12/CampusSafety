@@ -64,9 +64,4 @@
         android:id="@+id/post_button"
         android:onClick="onPostButtonClick"
         android:layout_centerInParent="true" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/requests"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
 </LinearLayout>

@@ -47,6 +47,7 @@
         <activity android:name=".SignUpActivity" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".DashboardActivity" />
+        <activity android:name='.FeedActivity'/>
     </application>
 
 </manifest>

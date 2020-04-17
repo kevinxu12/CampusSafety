@@ -46,6 +46,13 @@ public class DashboardActivity extends AppCompatActivity {
         DashboardActivity.this.startActivity(i);
     }
 
+    public void onFeedButtonClick(View view) {
+        Log.v(TAG, "called feed");
+        logOut();
+        Intent i = new Intent(this, FeedActivity.class);
+        DashboardActivity.this.startActivity(i);
+    }
+
     private void logOut() {
         try {
             URL url = new URL("http://10.0.2.2:5000/api/applogout/");

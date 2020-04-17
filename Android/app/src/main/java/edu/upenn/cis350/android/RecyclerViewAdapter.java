@@ -37,9 +37,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(ViewHolder holder, int position) {
         JSONObject post = mData.get(position);
         try {
-            holder.title.setText(post.getString("title"));
-            holder.description.setText(post.getString("description"));
-            holder.username.setText(post.getString("firstname"));
+            holder.location.setText("Location: " + post.getString("latitude") + post.getString("longitude"));
+            holder.description.setText("Description: " + post.getString( "description"));
+            holder.username.setText("Author: " + post.getString("firstname") + post.getString("lastname"));
         }
         catch(Exception e) {
 
@@ -56,13 +56,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView title;
+        TextView location;
         TextView description;
         TextView username;
 
         ViewHolder(View itemView) {
             super(itemView);
-            title = itemView.findViewById(R.id.title);
+            location = itemView.findViewById(R.id.location);
             description = itemView.findViewById(R.id.description);
             username = itemView.findViewById(R.id.username);
         }
