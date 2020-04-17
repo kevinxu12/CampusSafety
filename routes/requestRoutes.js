@@ -106,15 +106,13 @@ module.exports = (app) => {
 
     app.get('/api/getAllRequests', (req, res) => {
         console.log("getting all requests");
-        if(err){
-            console.log("error: " + err);
-            
-        } else {
-            Request.find({}, (err, response) => {
-                console.log(response);
-                res.send(response);
-            })
-        }  
-        
+        Request.find({}, (err, response) => {
+            res.send(response);
+        })
     })
 }
+
+
+
+
+
