@@ -74,6 +74,13 @@
         android:layout_height="wrap_content"
         android:text="*Required" />
 
+    <TextView
+        android:id="@+id/required"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="" />
+
     <Button
         android:id="@+id/submit"
         android:layout_width="339dp"
@@ -82,4 +89,5 @@
         android:gravity="center"
         android:onClick="onButtonClick"
         android:text="Create Account" />
+
 </LinearLayout>

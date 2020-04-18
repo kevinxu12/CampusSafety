@@ -1,27 +1,23 @@
 package edu.upenn.cis350.android;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+
 
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import org.json.JSONArray;
+import android.location.Geocoder;
+import android.location.Address;
 import org.json.JSONObject;
 
 import java.net.URL;
-import java.util.ArrayList;
+import java.util.List;
 
 public class PostActivity extends AppCompatActivity {
     private static final String TAG_POST = "POST";
     private static final String TAG_GET = "GET";
-    RecyclerViewAdapter adapter;
-    ArrayList<JSONObject> testList;
-    // for testing
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,17 +44,33 @@ public class PostActivity extends AppCompatActivity {
             EditText locationInput = (EditText) findViewById(R.id.location);
             EditText firstNameInput = (EditText) findViewById(R.id.firstname);
             EditText lastNameInput = (EditText) findViewById(R.id.lastname);
-            EditText latitudeInput = (EditText) findViewById(R.id.latitude);
-            EditText longitudeInput = (EditText) findViewById(R.id.longitude);
+            //EditText latitudeInput = (EditText) findViewById(R.id.latitude);
+            //EditText longitudeInput = (EditText) findViewById(R.id.longitude);
+            TextView latlongText = (TextView) findViewById(R.id.latlongText);
 
             String title = titleInput.getText().toString();
             String description = descriptionInput.getText().toString();
             String location = locationInput.getText().toString();
             String firstname = firstNameInput.getText().toString();
             String lastname = lastNameInput.getText().toString();
-            double latitude = Double.parseDouble(latitudeInput.getText().toString());
-            double longitude = Double.parseDouble(longitudeInput.getText().toString());
+            double latitude = 0;
+            double longitude = 0;
 
+            //creating the geocoding location
+            Geocoder gc = new Geocoder(PostActivity.this);
+            if(gc.isPresent()){
+                try {
+                    List<Address> list = gc.getFromLocationName(location, 1);
+                    Address address = list.get(0);
+                    latitude = address.getLatitude();
+                    longitude = address.getLongitude();
+                    String latlong = "Latitude: " + latitude + "\nLongitude: " + longitude;
+                    latlongText.setText(latlong);
+                } catch (Exception e){
+                    Log.v(TAG_POST, "erorr" + e.toString());
+                }
+
+            }
 
             postData.put("title", title);
             postData.put("description", description);

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import org.json.JSONObject;
 
@@ -16,12 +17,14 @@ import java.net.URLEncoder;
 public class SignUpActivity extends AppCompatActivity {
 
     private static final String TAG_POST = "POST";
+    TextView requiredText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
+        requiredText = (TextView) findViewById(R.id.required);
     }
 
     public void onButtonClick(View view) {
@@ -47,21 +50,25 @@ public class SignUpActivity extends AppCompatActivity {
             String university = universityInput.getText().toString();
             String phone = phoneInput.getText().toString();
 
-            //encode the password
-            password = URLEncoder.encode(password);
+            if (firstName.equals("") || lastName.equals("") || email.equals("") || password.equals("")) {
+                requiredText.setText("Please fill out all required fields.");
+            } else {
+                //encode the password
+                password = URLEncoder.encode(password);
 
-            postData.put("firstname", firstName);
-            postData.put("lastname", lastName);
-            postData.put("email", email);
-            postData.put("password", password);
-            postData.put("university", university);
-            postData.put("phone", phone);
-            HTTPPostRequest task = new HTTPPostRequest(postData);
-            task.execute(url.toString());
-            JSONObject value = task.get();
-            Log.v(TAG_POST, "value of post is " + value.toString());
-            Intent i = new Intent(this, DashboardActivity.class);
-            SignUpActivity.this.startActivity(i);
+                postData.put("firstname", firstName);
+                postData.put("lastname", lastName);
+                postData.put("email", email);
+                postData.put("password", password);
+                postData.put("university", university);
+                postData.put("phone", phone);
+                HTTPPostRequest task = new HTTPPostRequest(postData);
+                task.execute(url.toString());
+                JSONObject value = task.get();
+                Log.v(TAG_POST, "value of post is " + value.toString());
+                Intent i = new Intent(this, DashboardActivity.class);
+                SignUpActivity.this.startActivity(i);
+            }
         }
         catch (Exception e) {
             Log.v(TAG_POST, "Exception " + e.toString());
