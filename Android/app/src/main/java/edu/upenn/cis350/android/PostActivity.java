@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -26,32 +27,8 @@ public class PostActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
-        testList = new ArrayList<>();
-        getRequests();
-
-
-        RecyclerView recyclerView = findViewById(R.id.requests);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new RecyclerViewAdapter(this,testList);
-        recyclerView.setAdapter(adapter);
     }
 
-    private void getRequests() {
-        try {
-        URL url = new URL("http://10.0.2.2:5000/api/getAllRequests");
-        HTTPGetRequest task = new HTTPGetRequest();
-        task.execute(url.toString());
-        JSONArray requestArray = task.get();
-        for(int i = 0 ; i < requestArray.length(); i ++) {
-            JSONObject request = (JSONObject) requestArray.get(i);
-            testList.add(request);
-        }
-        Log.v(TAG_GET, "value of get is " + requestArray.toString());
-    }
-    catch (Exception e) {
-
-    }
-    }
 
     public void onPostButtonClick(View view) {
         // the intent connects the two classes
@@ -62,6 +39,7 @@ public class PostActivity extends AppCompatActivity {
 
     // fill this in
     private void createNewPost() {
+        TextView errorDisplay = (TextView) findViewById(R.id.error);
         try {
             URL url = new URL("http://10.0.2.2:5000/api/postRequest");
             JSONObject postData = new JSONObject();
@@ -95,6 +73,7 @@ public class PostActivity extends AppCompatActivity {
             Log.v(TAG_POST, "value of post is " + value.toString());
         }
         catch (Exception e) {
+            errorDisplay.setText(e.toString());
             Log.v(TAG_POST, "erorr" + e.toString());
         }
     }
