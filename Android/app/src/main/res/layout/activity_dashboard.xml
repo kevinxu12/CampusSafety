@@ -40,6 +40,17 @@
         android:onClick="onProfileButtonClick"
         android:text="View Profile"
         tools:ignore="MissingConstraints" />
+    <Button
+        android:id="@+id/NewsfeedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:onClick="onFeedButtonClick"
+        android:text="News Feed"
+        tools:ignore="MissingConstraints"/>
 
 
     <Button
@@ -53,6 +64,8 @@
         android:onClick="onAlertButtonClick"
         android:text="Alert Feed"
         tools:ignore="MissingConstraints"/>
+
+
 
     <Button
         android:id="@+id/logoutButton"

@@ -1,21 +1,21 @@
 const mongoose = require('mongoose');
 const Request = mongoose.model('request');
 const Alert = mongoose.model('alert');
-const Notification = mongoose.model('alert');
+const Notification = mongoose.model('notification');
 module.exports = (app) => {
     // filled out with test information
     app.post('/api/postRequest', (req, res) => {
         console.log("posting new request");
         const putData = req.body;
         // these are all mandatory
-        const title = putData.title;
-        const description = putData.description;
-        const location = putData.location;
-        const email = putData.email;
-        const firstname = putData.firstname;
-        const lastname = putData.lastname;
-        const latitude = putData.latitude;
-        const longitude = putData.longitude;
+        const title = putData.title || 'default';
+        const description = putData.description || 'default';
+        const location = putData.location || 'default';
+        const email = putData.email || 'default';
+        const firstname = putData.firstname || 'default first name';
+        const lastname = putData.lastname || 'default last name';
+        const latitude = putData.latitude || 39.9527236;
+        const longitude = putData.longitude || -75.1940023;
         const newRequest = new Request({
             title: title,
             description: description,
@@ -57,14 +57,15 @@ module.exports = (app) => {
                 res.end();
             } else {
                 console.log("successfully deleted request");
-                const title = response.title;
-                const description = response.description;
-                const location = response.location;
-                const email = response.email;
-                const firstname = response.firstname;
-                const lastname = response.lastname;
-                const latitude = response.latitude;
-                const longitude = response.longitude;
+                const putData = response;
+                const title = putData.title || 'default';
+                const description = putData.description || 'default';
+                const location = putData.location || 'default';
+                const email = putData.email || 'default';
+                const firstname = putData.firstname || 'default first name';
+                const lastname = putData.lastname || 'default last name';
+                const latitude = putData.latitude || 39.9527236;
+                const longitude = putData.longitude || -75.1940023;
                 const newAlert = new Alert({
                     title: title,
                     description: description,
@@ -92,8 +93,8 @@ module.exports = (app) => {
                                 console.log("error saving new notification");
                                 res.end();
                             } else {
-                                console.log("successful added new alert");
-                                res.json({ result: "success" });
+                                console.log("successful acceptance of a request");
+                                res.json({ result: "successful acceptance of a request" });
                             }
                         })
 
@@ -106,6 +107,32 @@ module.exports = (app) => {
 
     app.post('/api/rejectRequest', (req, res) => {
         console.log('rejecting request' + req.body._id);
+        // remove the request
+        Request.findByIdAndDelete(req.body._id, (err, response) => {
+            if (err) {
+                console.log(err);
+                res.end();
+            } else {
+                const firstname = response.firstname || 'default first name';
+                const lastname = response.lastname || 'default last name';
+                console.log("successfully deleted request");
+                const notification_description = "your request has been rejected";
+                const newNotification = new Notification({
+                    firstname: firstname,
+                    lastname: lastname,
+                    description: notification_description
+                })
+                newNotification.save((err) => {
+                    if (err) {
+                        console.log("error saving new notification");
+                        res.end();
+                    } else {
+                        console.log("successful rejection of a request");
+                        res.json({ result: "successful rejection of a request" });
+                    }
+                })
+            }
+        })
     })
 
     app.get('/api/getAllRequests', (req, res) => {

@@ -56,6 +56,7 @@ public class FeedActivity extends AppCompatActivity {
     /* Need to test refresh button works */
     public void onRefreshButtonClick(View view) {
         getAlerts();
+        adapter = null;
         RecyclerView recyclerView = findViewById(R.id.requests);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new RecyclerViewAdapter(this,testList);
