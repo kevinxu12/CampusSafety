@@ -26,6 +26,7 @@ module.exports = (app) => {
             latitude: latitude,
             longitude: longitude
         })
+        console.log(newRequest);
         Request.findOne({ title: title }, (err, resp) => {
             if (err) {
                 console.log("error finding post request");
@@ -138,6 +139,13 @@ module.exports = (app) => {
     app.get('/api/getAllRequests', (req, res) => {
         console.log("getting all requests");
         Request.find({}, (err, response) => {
+            res.send(response);
+        })
+    })
+
+    app.post('/api/getAllRequestsForUser', (req, res) => {
+        console.log("getting all requests for" + req.body.email);
+        Request.find({email: req.body.email}, (err, response) => {
             res.send(response);
         })
     })

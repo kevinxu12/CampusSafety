@@ -136,8 +136,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void getPendingMarkers(){
         try {
-            URL url = new URL("http://10.0.2.2:5000/api/getAllRequests");
-            HTTPGetRequest task = new HTTPGetRequest();
+            URL url = new URL("http://10.0.2.2:5000/api/getAllRequestsForUser");
+            JSONObject postData = new JSONObject();
+            postData.put("email", email);
+            HTTPPostArrayRequest task = new HTTPPostArrayRequest(postData);
             task.execute(url.toString());
             JSONArray requestArray = task.get();
             Log.v(TAG_GET, "i is currently" + requestArray.length());
@@ -154,7 +156,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 addingMarkers(title, description, firstname, lastname, new LatLng(latitude, longitude), true);
             }
-            Log.v(TAG_GET, "value of get is " + requestArray.toString());
+            Log.v(TAG_GET, "value of pending markers is  " + requestArray.toString());
         }
         catch (Exception e) {
             Log.v(TAG_GET, "exception is " + e);
