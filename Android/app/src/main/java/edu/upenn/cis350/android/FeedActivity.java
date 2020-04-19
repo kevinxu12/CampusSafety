@@ -28,7 +28,7 @@ public class FeedActivity extends AppCompatActivity {
         setContentView(R.layout.activity_feed);
         testList = new ArrayList<>();
         getAlerts();
-
+        getBroadcasts();
 
         RecyclerView recyclerView = findViewById(R.id.requests);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -39,6 +39,23 @@ public class FeedActivity extends AppCompatActivity {
     private void getAlerts() {
         try {
             URL url = new URL("http://10.0.2.2:5000/api/getAllAlerts");
+            HTTPGetRequest task = new HTTPGetRequest();
+            task.execute(url.toString());
+            JSONArray requestArray = task.get();
+            for(int i = 0 ; i < requestArray.length(); i ++) {
+                JSONObject request = (JSONObject) requestArray.get(i);
+                testList.add(request);
+            }
+            Log.v(TAG_GET, "value of get is " + requestArray.toString());
+        }
+        catch (Exception e) {
+
+        }
+    }
+
+    private void getBroadcasts() {
+        try {
+            URL url = new URL("http://10.0.2.2:5000/api/getAllBroadcasts");
             HTTPGetRequest task = new HTTPGetRequest();
             task.execute(url.toString());
             JSONArray requestArray = task.get();

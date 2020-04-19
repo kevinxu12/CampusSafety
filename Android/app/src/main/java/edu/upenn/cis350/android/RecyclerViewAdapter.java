@@ -50,7 +50,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         }
         catch(Exception e) {
-
         }
     }
 

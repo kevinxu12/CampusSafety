@@ -3,7 +3,10 @@ var Schema = mongoose.Schema;
 var broadcastSchema = new Schema({
     title: String, 
     description: String, 
-    author: String,
+    firstname: String,
+    lastname: String,
+    longitude: Number,
+    latitude: Number,
     time: String
 })
 

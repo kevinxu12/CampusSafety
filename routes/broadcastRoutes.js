@@ -1,16 +1,27 @@
 const timestamp = require('time-stamp');
 
 var routes = function(Broadcast) {
+    // made changes to integrate with android
     var makeBroadcast = function(req, res) {
-        var title = req.body.title;
-        var description = req.body.description;
-        var author = req.body.author;
+        var title = "BROADCAST: " + req.body.title;
+        var description = "BROADCAST: " + req.body.description;
+        const author = req.body.author
+        const auth_array = author.split(" ");
+        // default names
+        var firstname = auth_array[0] || 'Default';
+        var lastname = auth_array[1] || 'Default';
+        // default lat and long
+        var longitude = 11.23;
+        var latitude = 10.12;
         var time = timestamp('YYYY/MM/DD,HH:mm:ss');
 
         var newBroadcast = new Broadcast({
             title: title,
             description: description, 
-            author: author, 
+            firstname: firstname, 
+            longitude: longitude,
+            latitude: latitude,
+            lastname: lastname,
             time: time
         })
 
@@ -25,8 +36,16 @@ var routes = function(Broadcast) {
         })
     }
 
+    var getAllBroadcasts = function(req, res) { 
+        console.log("getting all broadcasts");
+        Broadcast.find({}, (err, response) => {
+            res.send(response);
+        })
+    }
+
     return {
-        make_broadcast: makeBroadcast
+        make_broadcast: makeBroadcast,
+        getAllBroadcasts: getAllBroadcasts
     }
 }
 
