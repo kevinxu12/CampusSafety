@@ -47,7 +47,20 @@ class MyMap extends Component {
     const {latLng} = c;
     const lat = latLng.lat();
     const lng = latLng.lng();
-
+    console.log(lat);
+    console.log(lng);
+    this.setState(previousState => {
+      return {
+        acceptedMarkers: [...previousState.acceptedMarkers, {
+          title: "",
+          name:"",
+          position: {lat, lng}
+        }],
+        pendingMarkers: [...previousState.pendingMarkers],
+        selectedMarker: previousState.selectedMarker
+      }
+    })
+    console.log(this.state.acceptedMarkers);
   }
 
   render() {
@@ -60,10 +73,7 @@ class MyMap extends Component {
          lat: 39.9522,
          lng: -75.1932
         }}
-        onClick={e => {
-          console.log('printing');
-          console.log(e.latLng);
-        }}
+        onClick={this.onMapClick}
       >
         {this.state.acceptedMarkers.map(acceptedMarker => (
           <Marker
@@ -96,6 +106,22 @@ class MyMap extends Component {
             </div>
           </InfoWindow>
         )}
+         {this.state.pendingMarkers.map(pendingMarker => (
+          <Marker
+            key = {pendingMarker.id}
+            position={{
+              lat: pendingMarker.latitude,
+              lng: pendingMarker.longitude
+            }}
+            icon={"http://maps.google.com/mapfiles/ms/icons/green.png"}
+          >
+            onClick{() => {
+              console.log('selecting marker');
+              console.log(pendingMarker);
+              this.state.selectedMarker = pendingMarker;
+            }}  
+          </Marker>
+        ))}
       </Map>
     );
   }
