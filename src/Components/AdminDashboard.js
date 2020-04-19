@@ -7,6 +7,8 @@ import Button from 'react-bootstrap/Button'
 import PendingRequests from './PendingRequests';
 import Auth from '../Middleware/Auth'
 import AcceptingRequests from './AcceptedRequests'
+import MyMap from './MyMap'
+
 class AdminDashboard extends Component {
 
     constructor(props) {
@@ -52,9 +54,10 @@ class AdminDashboard extends Component {
             return <PendingRequests />
         } else if (this.state.currentPage === 'Accepting Requests') {
             return <AcceptingRequests />
+        } else if (this.state.currentPage === 'Map') {
+            return <MyMap />
         }
     }
-
 
     render() {
         return (
@@ -64,7 +67,7 @@ class AdminDashboard extends Component {
                         <Navbar.Brand className="navbar-title">Penn Safety</Navbar.Brand>
                         <Nav className="container-fluid">
                             <Nav.Link onClick={() => { this.setState({ currentPage: 'Home' }) }}>Home</Nav.Link>
-                            <Nav.Link href="#features">Map</Nav.Link>
+                            <Nav.Link onClick={() => { this.setState({ currentPage: 'Map' }) }}>Map</Nav.Link>
                             <Nav.Link onClick={() => { this.setState({ currentPage: 'Pending Requests' }) }}>Pending Requests</Nav.Link>
                             <Nav.Link onClick={() => {this.setState({currentPage: 'Accepting Requests'})}} href="#pricing">Accepted Requests</Nav.Link>
                             <Nav.Item className="ml-auto">
