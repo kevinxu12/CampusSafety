@@ -55,17 +55,18 @@ class MyMap extends Component {
           title: "",
           name:"",
           latitude: lat,
-          longituted: lng
+          longitude: lng,
+          _id:"1"
         }],
         pendingMarkers: [...previousState.pendingMarkers],
         selectedMarker: previousState.selectedMarker
       }
     })
-    console.log(this.state.acceptedMarkers);
   }
 
   render() {
     console.log('render');
+    console.log(this.state.acceptedMarkers); 
     return (
       <Map
         google={this.props.google}
@@ -78,6 +79,7 @@ class MyMap extends Component {
         onClick={this.onMapClick}
       >
         {this.state.acceptedMarkers.map(acceptedMarker => (
+          console.log(acceptedMarker),
           <Marker
             key = {acceptedMarker.id}
             position={{
