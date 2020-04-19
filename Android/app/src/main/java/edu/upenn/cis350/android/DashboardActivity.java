@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Spinner;
 
 import org.json.JSONObject;
 
@@ -42,9 +41,9 @@ public class DashboardActivity extends AppCompatActivity {
         DashboardActivity.this.startActivity(i);
     }
 
-    public void onAlertButtonClick(View view){
+    public void onNotifButtonClick(View view){
         Log.v(TAG, "called maps");
-        Intent i = new Intent(this, AlertActivity.class);
+        Intent i = new Intent(this, NotificationActivity.class);
         i.putExtra("email", email);
         DashboardActivity.this.startActivity(i);
     }

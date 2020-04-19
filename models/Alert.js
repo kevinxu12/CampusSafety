@@ -5,6 +5,7 @@ var alertSchema = new Schema({
     title: String, 
     description: String, 
     location: String,
+    email: String,
     firstname: String,
     lastname: String,
     latitude: Number,
