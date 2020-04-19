@@ -18,11 +18,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private List<JSONObject> mData;
     private LayoutInflater mInflater;
+    private boolean feed;
 
     // data is passed into the constructor
-    RecyclerViewAdapter(Context context, List<JSONObject> data) {
+    RecyclerViewAdapter(Context context, List<JSONObject> data, boolean feed) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
+        this.feed = feed;
     }
 
     // inflates the row layout from xml when needed
@@ -37,9 +39,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(ViewHolder holder, int position) {
         JSONObject post = mData.get(position);
         try {
-            holder.location.setText("Location: " + post.getString("latitude") + post.getString("longitude"));
-            holder.description.setText("Description: " + post.getString( "description"));
-            holder.username.setText("Author: " + post.getString("firstname") + post.getString("lastname"));
+            if(feed){
+                holder.location.setText("Location: " + post.getString("latitude") + post.getString("longitude"));
+                holder.description.setText("Description: " + post.getString( "description"));
+                holder.username.setText("Author: " + post.getString("firstname") + post.getString("lastname"));
+            } else {
+                holder.description.setText("Request Status: " + post.getString( "description"));
+                holder.username.setText("Author: " + post.getString("firstname") + post.getString("lastname"));
+            }
+
         }
         catch(Exception e) {
         }

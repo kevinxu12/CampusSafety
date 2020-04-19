@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
-const Alert = mongoose.model('alert');
+const Notification = mongoose.model('notification');
 
 module.exports = (app) => {
-    app.get('/api/getAllNotifications', (req, res) => {
+    app.post('/api/getAllNotifications', (req, res) => {
         var email = req.body.email;
-
-        Alert.find({email: email}, function(err, response) {
+        console.log("here");
+        Notification.find({email: email}, function(err, response) {
             if (err) {
                 console.log(err);
             } else {
@@ -17,7 +17,7 @@ module.exports = (app) => {
                     res.send(response);
                 }
             }
-        })
+        }).sort( [['_id', -1]] ).limit(2);
 
     })
 

@@ -4,6 +4,7 @@ var Schema = mongoose.Schema;
 var notificationSchema = new Schema({
     firstname: String,
     lastname: String, 
+    email: String,
     description: String
 })
 
