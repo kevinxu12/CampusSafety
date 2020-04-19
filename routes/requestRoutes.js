@@ -82,10 +82,11 @@ module.exports = (app) => {
                         console.log("error saving the new alert " + err);
                         res.end();
                     } else {
-                        const notification_description = "your request has been accepted";
+                        const notification_description = "'" + title + "' has been accepted";
                         const newNotification = new Notification({
                             firstname: firstname,
                             lastname: lastname,
+                            email: email,
                             description: notification_description
 
                         })
@@ -116,11 +117,14 @@ module.exports = (app) => {
             } else {
                 const firstname = response.firstname || 'default first name';
                 const lastname = response.lastname || 'default last name';
+                const title = response.title || 'default title';
+                const email = response.email || 'default email';
                 console.log("successfully deleted request");
-                const notification_description = "your request has been rejected";
+                const notification_description = "'" + title + "' has been rejected";
                 const newNotification = new Notification({
                     firstname: firstname,
                     lastname: lastname,
+                    email: email,
                     description: notification_description
                 })
                 newNotification.save((err) => {

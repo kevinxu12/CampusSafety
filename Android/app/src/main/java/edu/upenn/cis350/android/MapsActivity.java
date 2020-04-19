@@ -110,7 +110,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             for(int i = 0 ; i < requestArray.length(); i ++){
                 JSONObject request = (JSONObject) requestArray.get(i);
                 Log.v(TAG_GET, "length of request is " + request.length());
-                if(request.length() != 9){
+                if(request.length() != 10){
                     continue;
                 } else {
                     String title = request.getString("title");

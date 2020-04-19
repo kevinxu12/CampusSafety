@@ -32,7 +32,7 @@ public class FeedActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.requests);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new RecyclerViewAdapter(this,testList);
+        adapter = new RecyclerViewAdapter(this,testList, true);
         recyclerView.setAdapter(adapter);
     }
 
@@ -59,7 +59,7 @@ public class FeedActivity extends AppCompatActivity {
         adapter = null;
         RecyclerView recyclerView = findViewById(R.id.requests);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new RecyclerViewAdapter(this,testList);
+        adapter = new RecyclerViewAdapter(this,testList, true);
         recyclerView.setAdapter(adapter);
     }
 
