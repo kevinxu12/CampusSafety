@@ -1,7 +1,7 @@
 const timestamp = require('time-stamp');
 
 var routes = function(Broadcast) {
-    // made changes to integrate with android
+    // Added the fields firstname, lastname, longitude, latitude, to integrate with the android front end
     var makeBroadcast = function(req, res) {
         var title = "BROADCAST: " + req.body.title;
         var description = "BROADCAST: " + req.body.description;
