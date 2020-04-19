@@ -54,15 +54,15 @@
 
 
     <Button
-        android:id="@+id/AlertsButton"
+        android:id="@+id/NotifButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_margin="10dp"
         android:gravity="center"
         android:layout_gravity="center_vertical|center_horizontal"
-        android:onClick="onAlertButtonClick"
-        android:text="Alert Feed"
+        android:onClick="onNotifButtonClick"
+        android:text="Notification Feed"
         tools:ignore="MissingConstraints"/>
 
 
@@ -81,3 +81,5 @@
 
 
 </LinearLayout>
+
+
