@@ -61,6 +61,7 @@ app.post('/api/postusermarker/', markerRoutes.post_user_marker);
 app.get('/api/getallmarkers/', markerRoutes.get_all_markers);
 app.post('/api/postadminmarker/', markerRoutes.post_admin_marker);
 app.post('/api/makebroadcast/', broadcastRoutes.make_broadcast);
+app.get('/api/getAllBroadcasts', broadcastRoutes.getAllBroadcasts);
 
 
 app.listen(5000);

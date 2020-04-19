@@ -42,7 +42,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             holder.username.setText("Author: " + post.getString("firstname") + post.getString("lastname"));
         }
         catch(Exception e) {
-
         }
     }
 
