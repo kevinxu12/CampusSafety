@@ -1,4 +1,4 @@
-var routes = function(Request, Marker) {
+var routes = function(Request, Marker, Alert, Admin) {
     var getAllMarkers = function(req, res) {
         console.log("getting all markers");
         Marker.find({}, (err, response) => {
@@ -67,6 +67,7 @@ var routes = function(Request, Marker) {
         const location = markerData.location;
         const firstname = markerData.firstname;
         const lastname = markerData.lastname;
+        const email = markerData.email;
         const newMarker = new Marker({
             latitude: lat,
             longitude: long, 
@@ -83,7 +84,26 @@ var routes = function(Request, Marker) {
                 res.send("error");
             } else {
                 console.log(response);
-                res.send("success");
+                const newAlert = new Alert({
+                    latitude: lat,
+                    longitude: long, 
+                    title: title,
+                    description: description,
+                    location: location,
+                    firstname: firstname,
+                    lastname: lastname,
+                    email: email
+                }) 
+
+                newAlert.save(function (err, response2) {
+                    if (err) {
+                        console.log(error);
+                        res.send("error");
+                    } else {
+                        console.log(response2);
+                        res.send("success");
+                    }
+                })
             }
         })
     }

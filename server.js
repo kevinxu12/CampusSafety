@@ -8,8 +8,8 @@ var mongoose = require("mongoose");
 //var uri = "mongodb+srv://vinkebot:7i81X7J02X88LC8k@firstcluster-u93p5.mongodb.net/test?retryWrites=true&w=majority"
 //var uri = "mongodb+srv://mariatu:Maria2000@cluster0-oa2j0.mongodb.net/test?retryWrites=true&w=majority"
 //var uri = "mongodb+srv://vinkebot:7i81X7J02X88LC8k@firstcluster-u93p5.mongodb.net/test?retryWrites=true&w=majority"
-//var uri = "mongodb+srv://mattkim:minwoo123@cluster0-un1ah.mongodb.net/test?retryWrites=true&w=majority"
-var uri = "mongodb+srv://jlee1115:Yuyeon1115!@cluster0-t3avm.mongodb.net/test?retryWrites=true&w=majority"
+var uri = "mongodb+srv://mattkim:minwoo123@cluster0-un1ah.mongodb.net/test?retryWrites=true&w=majority"
+//var uri = "mongodb+srv://jlee1115:Yuyeon1115!@cluster0-t3avm.mongodb.net/test?retryWrites=true&w=majority"
 mongoose.connect(uri);
 mongoose.connection.on('connected', function(){
     console.log("connected to mongo db instance");
@@ -35,13 +35,13 @@ var Account = require("./models/account");
 var Marker = require('./models/marker');
 var Request = require('./models/request');
 var Broadcast = require('./models/broadcast');
+var Alert = require('./models/Alert');
 require('./models/Notification');
-require('./models/Alert');
 
 // define routes
 var authRoutes = require('./routes/authroutes.js')(Admin);
 var accRoutes = require('./routes/accountRoutes.js');
-var markerRoutes = require('./routes/markerRoutes.js')(Request, Marker);
+var markerRoutes = require('./routes/markerRoutes.js')(Request, Marker, Alert, Admin);
 var broadcastRoutes = require('./routes/broadcastRoutes')(Broadcast);
 require('./routes/requestRoutes')(app);
 require('./routes/notificationRoutes')(app);

@@ -16,6 +16,7 @@ class Home extends Component {
             lastname: '',
             posttitle: '',
             postdescription: '',
+            email: localStorage.getItem("email"),
             location: '',
             latitude: '',
             longitude: '',
@@ -112,7 +113,7 @@ class Home extends Component {
     handlePostSubmit = (event) => {
         event.preventDefault();
 
-        var obj = {posttitle: this.state.posttitle, postdescription: this.state.postdescription, location: this.state.location, firstname: this.state.firstname, lastname: this.state.lastname, latitude: this.state.latitude, longitude: this.state.longitude};
+        var obj = {posttitle: this.state.posttitle, postdescription: this.state.postdescription, email: this.state.email, location: this.state.location, firstname: this.state.firstname, lastname: this.state.lastname, latitude: this.state.latitude, longitude: this.state.longitude};
         Marker.adminPost(obj, (result) => {
             if (result === "success") {
                 this.setState({
