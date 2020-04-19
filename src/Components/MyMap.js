@@ -54,7 +54,8 @@ class MyMap extends Component {
         acceptedMarkers: [...previousState.acceptedMarkers, {
           title: "",
           name:"",
-          position: {lat, lng}
+          latitude: lat,
+          longituted: lng
         }],
         pendingMarkers: [...previousState.pendingMarkers],
         selectedMarker: previousState.selectedMarker
@@ -64,6 +65,7 @@ class MyMap extends Component {
   }
 
   render() {
+    console.log('render');
     return (
       <Map
         google={this.props.google}
@@ -82,6 +84,7 @@ class MyMap extends Component {
               lat: acceptedMarker.latitude,
               lng: acceptedMarker.longitude
             }}
+            icon={"http://maps.google.com/mapfiles/ms/icons/green.png"}
           >
             onClick{() => {
               console.log('selecting marker');
@@ -113,7 +116,6 @@ class MyMap extends Component {
               lat: pendingMarker.latitude,
               lng: pendingMarker.longitude
             }}
-            icon={"http://maps.google.com/mapfiles/ms/icons/green.png"}
           >
             onClick{() => {
               console.log('selecting marker');
