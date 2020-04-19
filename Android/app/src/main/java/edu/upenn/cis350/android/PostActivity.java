@@ -25,6 +25,7 @@ public class PostActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
         email = getIntent().getStringExtra("email");
+        Log.v(TAG_POST,"email is " +  email);
     }
 
 

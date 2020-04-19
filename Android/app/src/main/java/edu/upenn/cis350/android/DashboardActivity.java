@@ -19,12 +19,14 @@ public class DashboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
         email = getIntent().getStringExtra("email");
+        Log.v(TAG, "email at dashboard is" + email);
     }
 
     public void onPostNavButtonClick(View view) {
         // the intent connects the two classes
         Log.v(TAG, "called post");
         Intent i = new Intent(this, PostActivity.class);
+        i.putExtra("email", email);
         DashboardActivity.this.startActivity(i);
     }
 
