@@ -35,6 +35,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     ArrayList<JSONObject> testList;
     private static final String TAG_POST = "POST";
     private static final String TAG_GET = "GET";
+    String email = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,23 +45,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        email = getIntent().getStringExtra("email");
     }
 
     //Adding a marker to the map
-    public void addingMarkers(String t, String d, String f, String l, LatLng p){
+    public void addingMarkers(String t, String d, String f, String l, LatLng p, boolean pending){
         LatLng point = p;
         String title = t;
         String description = d;
         String first = f;
         String last = l;
+        boolean pendingstatus = pending;
 
         String authorinfo = "By: " + first + " " + last;
+
+        float color =  pendingstatus ? BitmapDescriptorFactory.HUE_RED : BitmapDescriptorFactory.HUE_GREEN;
+
 
         mMap.addMarker(new MarkerOptions()
                 .position(point)
                 .title(title)
                 .snippet(authorinfo + "\n" + description)
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                .icon(BitmapDescriptorFactory.defaultMarker(color)));
 
         mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
 
@@ -94,7 +100,41 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    public void getMarkers(){
+    public void getAcceptedMarkers(){
+        try {
+            URL url = new URL("http://10.0.2.2:5000/api/getAllAlerts");
+            HTTPGetRequest task = new HTTPGetRequest();
+            task.execute(url.toString());
+            JSONArray requestArray = task.get();
+            Log.v(TAG_GET, "i is currently" + requestArray.length());
+            for(int i = 0 ; i < requestArray.length(); i ++){
+                JSONObject request = (JSONObject) requestArray.get(i);
+                Log.v(TAG_GET, "length of request is " + request.length());
+                if(request.length() != 9){
+                    continue;
+                } else {
+                    String title = request.getString("title");
+                    String description = request.getString("description");
+                    String firstname = request.getString("firstname");
+                    String lastname = request.getString("lastname");
+                    String location = request.getString("location");
+                    double latitude = request.getDouble("latitude");
+                    double longitude = request.getDouble("longitude");
+
+                    addingMarkers(title, description, firstname, lastname, new LatLng(latitude, longitude), false);
+                }
+
+            }
+            Log.v(TAG_GET, "value of get is " + requestArray.toString());
+        }
+        catch (Exception e) {
+            Log.v(TAG_GET, "exception is " + e);
+        }
+
+    }
+
+
+    public void getPendingMarkers(){
         try {
             URL url = new URL("http://10.0.2.2:5000/api/getAllRequests");
             HTTPGetRequest task = new HTTPGetRequest();
@@ -112,7 +152,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 double latitude = (double) request.get("latitude");
                 double longitude = (double) request.get("longitude");
 
-                addingMarkers(title, description, firstname, lastname, new LatLng(latitude, longitude));
+                addingMarkers(title, description, firstname, lastname, new LatLng(latitude, longitude), true);
             }
             Log.v(TAG_GET, "value of get is " + requestArray.toString());
         }
@@ -133,6 +173,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             double longitude = point.longitude;
 
             postData.put("title", title);
+            postData.put("email", email);
             postData.put("description", description);
             postData.put("location", location);
             postData.put("firstname", firstname);
@@ -185,7 +226,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 String last = lastNBox.getText().toString();
 
                 postingMarker(title, description, "Penn", first, last, point);
-                addingMarkers(title, description, first, last, point);
+                addingMarkers(title, description, first, last, point, true);
 
             }
         });
@@ -210,7 +251,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng philly = new LatLng(39.9522, -75.1932);
         //mMap.addMarker(new MarkerOptions().position(philly).title("Marker in Philadelphia"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(philly, 15));
-        getMarkers();
+        getPendingMarkers();
+        getAcceptedMarkers();
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
 
             @Override
@@ -221,5 +263,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
 
 
+    }
+
+    public void onRefreshButtonClick(View view) {
+        mMap.clear();
+        getPendingMarkers();
+        getAcceptedMarkers();
     }
 }

@@ -58,6 +58,7 @@ public class LogInActivity extends AppCompatActivity {
                 Log.v(TAG_POST, "login successful");
                 errorDisplay.setText("");
                 Intent i = new Intent(this, DashboardActivity.class);
+                i.putExtra("email", email);
                 LogInActivity.this.startActivity(i);
             } else if (result.equals("error")){
                 Log.v(TAG_POST, "could not log in");

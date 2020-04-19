@@ -18,11 +18,13 @@ import java.util.List;
 public class PostActivity extends AppCompatActivity {
     private static final String TAG_POST = "POST";
     private static final String TAG_GET = "GET";
+    String email = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
+        email = getIntent().getStringExtra("email");
     }
 
 
@@ -74,6 +76,7 @@ public class PostActivity extends AppCompatActivity {
 
             postData.put("title", title);
             postData.put("description", description);
+            postData.put("email", email);
             postData.put("location", location);
             postData.put("firstname", firstname);
             postData.put("lastname", lastname);

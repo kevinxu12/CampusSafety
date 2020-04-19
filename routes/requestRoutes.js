@@ -11,6 +11,7 @@ module.exports = (app) => {
         const title = putData.title;
         const description = putData.description;
         const location = putData.location;
+        const email = putData.email;
         const firstname = putData.firstname;
         const lastname = putData.lastname;
         const latitude = putData.latitude;
@@ -19,6 +20,7 @@ module.exports = (app) => {
             title: title,
             description: description,
             location: location,
+            email: email,
             firstname: firstname,
             lastname: lastname,
             latitude: latitude,
@@ -58,6 +60,7 @@ module.exports = (app) => {
                 const title = response.title;
                 const description = response.description;
                 const location = response.location;
+                const email = response.email;
                 const firstname = response.firstname;
                 const lastname = response.lastname;
                 const latitude = response.latitude;
@@ -66,6 +69,7 @@ module.exports = (app) => {
                     title: title,
                     description: description,
                     location: location,
+                    email: email,
                     firstname: firstname,
                     lastname: lastname,
                     latitude: latitude,

@@ -14,10 +14,12 @@ import java.net.URL;
 
 public class DashboardActivity extends AppCompatActivity {
     private static final String TAG = "MAIN";
+    String email = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+        email = getIntent().getStringExtra("email");
     }
 
     public void onPostNavButtonClick(View view) {
@@ -30,12 +32,20 @@ public class DashboardActivity extends AppCompatActivity {
     public void onMapButtonClick(View view) {
         Log.v(TAG, "called maps");
         Intent i = new Intent(this, MapsActivity.class);
+        i.putExtra("email", email);
         DashboardActivity.this.startActivity(i);
     }
 
     public void onProfileButtonClick(View view) {
         Log.v(TAG, "called profile");
         Intent i = new Intent(this, ProfileActivity.class);
+        DashboardActivity.this.startActivity(i);
+    }
+
+    public void onAlertButtonClick(View view){
+        Log.v(TAG, "called maps");
+        Intent i = new Intent(this, AlertActivity.class);
+        i.putExtra("email", email);
         DashboardActivity.this.startActivity(i);
     }
 
