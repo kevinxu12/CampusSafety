@@ -68,46 +68,95 @@ var routes = function(Request, Marker, Alert, Admin) {
         const firstname = markerData.firstname;
         const lastname = markerData.lastname;
         const email = markerData.email;
-        const newMarker = new Marker({
-            latitude: lat,
-            longitude: long, 
-            title: title,
-            description: description,
-            location: location,
-            firstname: firstname,
-            lastname: lastname
-        })
 
-        newMarker.save(function (err, response) {
+        Marker.find({latitude: lat, longitude: long}, function(err, response) {
             if (err) {
                 console.log(err);
-                res.send("error");
-            } else {
-                console.log(response);
-                const newAlert = new Alert({
+            } else if (response.length != 0) {
+                // marker exists
+                lat = lat + 0.01;
+                const newMarker = new Marker({
                     latitude: lat,
                     longitude: long, 
                     title: title,
                     description: description,
                     location: location,
                     firstname: firstname,
-                    lastname: lastname,
-                    email: email
-                }) 
+                    lastname: lastname
+                })
 
-                newAlert.save(function (err, response2) {
+                newMarker.save(function (err, response) {
                     if (err) {
-                        console.log(error);
+                        console.log(err);
                         res.send("error");
                     } else {
-                        console.log(response2);
-                        res.send("success");
+                        console.log(response);
+                        const newAlert = new Alert({
+                            latitude: lat,
+                            longitude: long, 
+                            title: title,
+                            description: description,
+                            location: location,
+                            firstname: firstname,
+                            lastname: lastname,
+                            email: email
+                        }) 
+        
+                        newAlert.save(function (err, response2) {
+                            if (err) {
+                                console.log(error);
+                                res.send("error");
+                            } else {
+                                console.log(response2);
+                                res.send("success");
+                            }
+                        })
+                    }
+                })
+            } else {
+                // marker does not exist
+                const newMarker = new Marker({
+                    latitude: lat,
+                    longitude: long, 
+                    title: title,
+                    description: description,
+                    location: location,
+                    firstname: firstname,
+                    lastname: lastname
+                })
+
+                newMarker.save(function (err, response) {
+                    if (err) {
+                        console.log(err);
+                        res.send("error");
+                    } else {
+                        console.log(response);
+                        const newAlert = new Alert({
+                            latitude: lat,
+                            longitude: long, 
+                            title: title,
+                            description: description,
+                            location: location,
+                            firstname: firstname,
+                            lastname: lastname,
+                            email: email
+                        }) 
+        
+                        newAlert.save(function (err, response2) {
+                            if (err) {
+                                console.log(error);
+                                res.send("error");
+                            } else {
+                                console.log(response2);
+                                res.send("success");
+                            }
+                        })
                     }
                 })
             }
         })
     }
-
+ 
     return {
         get_all_markers: getAllMarkers,
         post_user_marker: postUserMarker,
