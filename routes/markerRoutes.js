@@ -74,9 +74,10 @@ var routes = function(Request, Marker, Alert, Admin) {
                 console.log(err);
             } else if (response.length != 0) {
                 // marker exists
-                lat = lat + 0.01;
+                var newlat = parseFloat(lat) + 0.01;
+                console.log(newlat);
                 const newMarker = new Marker({
-                    latitude: lat,
+                    latitude: newlat,
                     longitude: long, 
                     title: title,
                     description: description,
@@ -92,7 +93,7 @@ var routes = function(Request, Marker, Alert, Admin) {
                     } else {
                         console.log(response);
                         const newAlert = new Alert({
-                            latitude: lat,
+                            latitude: newlat,
                             longitude: long, 
                             title: title,
                             description: description,
