@@ -12,6 +12,8 @@
     "ejs": "^3.0.2",
     "express": "^4.17.1",
     "express-session": "^1.17.0",
+    "google-map-react": "^1.1.7",
+    "google-maps-react": "^2.0.2",
     "local-storage": "^2.0.0",
     "mongoose": "^5.9.7",
     "react": "^16.13.1",

@@ -35,6 +35,7 @@ var Request = require('./models/request');
 var Broadcast = require('./models/broadcast');
 var Alert = require('./models/Alert');
 require('./models/Notification');
+require('./models/Analytics');
 
 // define routes
 var authRoutes = require('./routes/authroutes.js')(Admin);
@@ -44,6 +45,7 @@ var broadcastRoutes = require('./routes/broadcastRoutes')(Broadcast);
 require('./routes/requestRoutes')(app);
 require('./routes/notificationRoutes')(app);
 require('./routes/alertRoutes')(app);
+require('./routes/analyticsRoutes')(app);
 
 
 

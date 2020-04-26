@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Request = mongoose.model('request');
 const Alert = mongoose.model('alert');
 const Notification = mongoose.model('notification');
+const Analytics = mongoose.model('analytics');
 module.exports = (app) => {
     // filled out with test information
     app.post('/api/postRequest', (req, res) => {
@@ -96,7 +97,16 @@ module.exports = (app) => {
                                 res.end();
                             } else {
                                 console.log("successful acceptance of a request");
-                                res.json({ result: "successful acceptance of a request" });
+                                Analytics.findOneAndUpdate({name: "analytics"}, {$inc: {"requestMade": 1, "requestAccepted": 1}}, (err) => {
+                                    if(err) {
+                                        console.log("error with analytics");
+                                        res.end();
+                                    } else {
+                                        console.log("successful analytics update")
+                                        res.json({ result: "successful acceptance of a request" });
+                                    }
+                                })
+                               
                             }
                         })
 
@@ -133,7 +143,15 @@ module.exports = (app) => {
                         res.end();
                     } else {
                         console.log("successful rejection of a request");
-                        res.json({ result: "successful rejection of a request" });
+                        Analytics.findOneAndUpdate({name: "analytics"}, {$inc: {"requestMade": 1, "requestRejected": 1}}, (err) => {
+                            if(err) {
+                                console.log("error with analytics");
+                                res.end();
+                            } else {
+                                console.log("successful analytics update");
+                                res.json({ result: "successful rejection of a request" });
+                            }
+                        })
                     }
                 })
             }
