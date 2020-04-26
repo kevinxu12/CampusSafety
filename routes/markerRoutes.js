@@ -1,3 +1,5 @@
+var axios = require('axios');
+
 var routes = function(Request, Marker, Alert, Admin) {
     var getAllMarkers = function(req, res) {
         console.log("getting all markers");
@@ -56,58 +58,126 @@ var routes = function(Request, Marker, Alert, Admin) {
 
     }
 
+
     var postAdminMarker = function(req, res) {
         console.log("posting new marker on map");
         const markerData = req.body;
         // these are all mandatory
-        const lat = markerData.latitude;
-        const long = markerData.longitude;
+        var latitude;
+        var longitude;
+        const location = markerData.location;
         const title = markerData.title;
         const description = markerData.description;
-        const location = markerData.location;
         const firstname = markerData.firstname;
         const lastname = markerData.lastname;
         const email = markerData.email;
-        const newMarker = new Marker({
-            latitude: lat,
-            longitude: long, 
-            title: title,
-            description: description,
-            location: location,
-            firstname: firstname,
-            lastname: lastname
-        })
-
-        newMarker.save(function (err, response) {
-            if (err) {
-                console.log(err);
-                res.send("error");
-            } else {
-                console.log(response);
-                const newAlert = new Alert({
-                    latitude: lat,
-                    longitude: long, 
-                    title: title,
-                    description: description,
-                    location: location,
-                    firstname: firstname,
-                    lastname: lastname,
-                    email: email
-                }) 
-
-                newAlert.save(function (err, response2) {
-                    if (err) {
-                        console.log(error);
-                        res.send("error");
-                    } else {
-                        console.log(response2);
-                        res.send("success");
-                    }
-                })
+        var lat;
+        var long;
+        axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
+            params:{
+                address: location,
+                key: 'AIzaSyBVFtzDmYguhjT8MJU2sxOfKNbLR1X-hVA'
             }
         })
-    }
+        .then(function(response) {
+            latitude = response.data.results[0].geometry.location.lat;
+            longitude = response.data.results[0].geometry.location.lng;
+            lat = latitude;
+            long = longitude;
 
+            Marker.find({latitude: lat, longitude: long}, function(err, response) {
+                if (err) {
+                    console.log(err);
+                } else if (response.length != 0) {
+                    // marker exists
+                    lat = lat + 0.01;
+                    const newMarker = new Marker({
+                        latitude: lat,
+                        longitude: long, 
+                        title: title,
+                        description: description,
+                        location: location,
+                        firstname: firstname,
+                        lastname: lastname
+                    })
+    
+                    newMarker.save(function (err, response) {
+                        if (err) {
+                            console.log(err);
+                            res.send("error");
+                        } else {
+                            console.log(response);
+                            const newAlert = new Alert({
+                                latitude: lat,
+                                longitude: long, 
+                                title: title,
+                                description: description,
+                                location: location,
+                                firstname: firstname,
+                                lastname: lastname,
+                                email: email
+                            }) 
+            
+                            newAlert.save(function (err, response2) {
+                                if (err) {
+                                    console.log(error);
+                                    res.send("error");
+                                } else {
+                                    console.log(response2);
+                                    res.send("success");
+                                }
+                            })
+                        }
+                    })
+                } else {
+                    // marker does not exist
+                    const newMarker = new Marker({
+                        latitude: lat,
+                        longitude: long, 
+                        title: title,
+                        description: description,
+                        location: location,
+                        firstname: firstname,
+                        lastname: lastname
+                    })
+    
+                    newMarker.save(function (err, response) {
+                        if (err) {
+                            console.log(err);
+                            res.send("error");
+                        } else {
+                            console.log(response);
+                            const newAlert = new Alert({
+                                latitude: lat,
+                                longitude: long, 
+                                title: title,
+                                description: description,
+                                location: location,
+                                firstname: firstname,
+                                lastname: lastname,
+                                email: email
+                            }) 
+            
+                            newAlert.save(function (err, response2) {
+                                if (err) {
+                                    console.log(error);
+                                    res.send("error");
+                                } else {
+                                    console.log(response2);
+                                    res.send("success");
+                                }
+                            })
+                        }
+                    })
+                }
+            })
+        })
+        .catch(function(error){
+            console.log(error);
+        });
+
+    }
+ 
     return {
         get_all_markers: getAllMarkers,
         post_user_marker: postUserMarker,
