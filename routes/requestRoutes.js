@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Request = mongoose.model('request');
 const Alert = mongoose.model('alert');
 const Notification = mongoose.model('notification');
+
 module.exports = (app) => {
     // filled out with test information
     app.post('/api/postRequest', (req, res) => {
