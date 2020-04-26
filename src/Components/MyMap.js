@@ -87,14 +87,31 @@ class MyMap extends Component {
               lng: acceptedMarker.longitude
             }}
             icon={"http://maps.google.com/mapfiles/ms/icons/green.png"}
-          >
-            onClick{() => {
+            onClick={() => {
               console.log('selecting marker');
               console.log(acceptedMarker);
               this.state.selectedMarker = acceptedMarker;
             }}  
+          >
           </Marker>
         ))}
+
+          {this.state.pendingMarkers.map(pendingMarker => (
+            <Marker
+              key = {pendingMarker.id}
+              position={{
+                lat: pendingMarker.latitude,
+                lng: pendingMarker.longitude
+              }}
+              onClick= {() => {
+                console.log('selecting marker');
+                console.log(pendingMarker);
+                this.state.selectedMarker = pendingMarker;
+              }}  
+            >
+            </Marker>
+        ))}
+        {console.log(this.state.selectedMarker)}
         {this.state.selectedMarker && (
           <InfoWindow
             onCloseClick={() => {
@@ -111,21 +128,6 @@ class MyMap extends Component {
             </div>
           </InfoWindow>
         )}
-         {this.state.pendingMarkers.map(pendingMarker => (
-          <Marker
-            key = {pendingMarker.id}
-            position={{
-              lat: pendingMarker.latitude,
-              lng: pendingMarker.longitude
-            }}
-          >
-            onClick{() => {
-              console.log('selecting marker');
-              console.log(pendingMarker);
-              this.state.selectedMarker = pendingMarker;
-            }}  
-          </Marker>
-        ))}
       </Map>
     );
   }
