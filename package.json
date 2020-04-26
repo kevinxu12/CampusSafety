@@ -12,12 +12,20 @@
     "ejs": "^3.0.2",
     "express": "^4.17.1",
     "express-session": "^1.17.0",
+<<<<<<< HEAD
+=======
+    "fsevents": "^2.1.3",
+    "geocoder": "^0.2.3",
+    "google-map-react": "^1.1.7",
+>>>>>>> e35d53e66dd5a5605efaf654266a4a9675ee6a96
     "google-maps-react": "^2.0.6",
     "local-storage": "^2.0.0",
     "mongoose": "^5.9.7",
+    "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.0",
     "react-dom": "^16.13.1",
+    "react-google-maps": "^9.4.5",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",

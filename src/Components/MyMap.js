@@ -21,9 +21,11 @@ class MyMap extends Component {
     this.state = {
       acceptedMarkers: [],
       pendingMarkers: [],
-      selectedMarker: null
+      selectedMarker: {},
+      isMarkerSelected: false
     };
     this.onMapClick = this.onMapClick.bind(this);
+    this.onMarkerClick = this.onMarkerClick.bind(this);
   }
 
   async componentDidMount() {
@@ -59,7 +61,21 @@ class MyMap extends Component {
           _id:"1"
         }],
         pendingMarkers: [...previousState.pendingMarkers],
-        selectedMarker: previousState.selectedMarker
+        selectedMarker: previousState.selectedMarker,
+        isMarkerSelected: previousState.isMarkerSelected
+      }
+    })
+  }
+
+  onMarkerClick(t, marker, c) {
+    console.log('marker clicked');
+    console.log(marker);
+    this.setState(previousState => {
+      return {
+        acceptedMarkerrs: [...previousState.acceptedMarkers],
+        pendingMarkers: [...previousState.pendingMarkers],
+        selectedMarker: marker,
+        isMarkerSelected: true
       }
     })
   }
@@ -87,45 +103,60 @@ class MyMap extends Component {
               lng: acceptedMarker.longitude
             }}
             icon={"http://maps.google.com/mapfiles/ms/icons/green.png"}
+            onClick={ this.onMarkerClick
+              // () => {
+              // console.log('selecting marker');
+              // console.log(acceptedMarker);
+              // this.state.selectedMarker = acceptedMarker;
+              // console.log(this.state.selectedMarker);
+              // this.render();
+              // }
+            }
+            title={acceptedMarker.firstname + " " + acceptedMarker.lastname}
+            label={acceptedMarker.location}
           >
-            onClick{() => {
-              console.log('selecting marker');
-              console.log(acceptedMarker);
-              this.state.selectedMarker = acceptedMarker;
-            }}  
           </Marker>
         ))}
-        {this.state.selectedMarker && (
-          <InfoWindow
-            onCloseClick={() => {
-              this.state.selectedMarker = null;
-            }}
-            position = {{
-              lat: this.state.selectedMarker.latitude,
-              lng: this.state.selectedMarker.longitude
-            }}
-          >
-            <div>
-              <h2>{this.state.selectedMarker.title}</h2>
-              <p>{this.state.selectedMarker.description}</p>
-            </div>
-          </InfoWindow>
-        )}
-         {this.state.pendingMarkers.map(pendingMarker => (
+
+        {this.state.pendingMarkers.map(pendingMarker => (
           <Marker
             key = {pendingMarker.id}
             position={{
               lat: pendingMarker.latitude,
               lng: pendingMarker.longitude
             }}
+            onClick={ this.onMarkerClick
+              // () => {
+              // console.log('selecting marker');
+              // console.log(pendingMarker);
+              // this.state.selectedMarker = pendingMarker;
+              // console.log(this.state.selectedMarker);
+              // this.render();
+              // }
+            }   
+            title={pendingMarker.firstname + " " + pendingMarker.lastname}
+            label={pendingMarker.location}
           >
-            onClick{() => {
-              console.log('selecting marker');
-              console.log(pendingMarker);
-              this.state.selectedMarker = pendingMarker;
-            }}  
           </Marker>
         ))}
+        <InfoWindow
+          onCloseClick={() => {
+            this.state.selectedMarker = {};
+            this.state.isMarkerSelected = false;
+          }}
+          // position = {{
+          //   lat: this.state.selectedMarker.latitude,
+          //   lng: this.state.selectedMarker.longitude
+          // }}
+          marker = {this.state.selectedMarker}
+          visible = {this.state.isMarkerSelected}
+        >
+          {console.log(this.state.selectedMarker)}
+          <div>
+            <h2>{this.state.selectedMarker.label}</h2>
+            <p>{"Reported by " + this.state.selectedMarker.title}</p>
+          </div>
+        </InfoWindow>
       </Map>
     );
   }
